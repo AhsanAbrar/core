@@ -21,13 +21,9 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../config/span.php', 'span');
+        if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
+            Span::registerAllProviders();
         }
-
-        // if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
-        //     Span::registerAllProviders();
-        // }
 
         $this->app->make(HttpKernel::class)
                     ->pushMiddleware(ServePackage::class);
