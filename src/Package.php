@@ -22,19 +22,17 @@ class Package
      */
     public static function registerAllProviders(): void
     {
-        // app()->register(SpanServiceProvider::class);
+        app()->register(SpanvelServiceProvider::class);
 
-        // foreach (config('packages.providers') as $key => $provider) {
-        //     app()->register($provider);
-        // }
+        foreach (config('packages.providers') as $key => $provider) {
+            app()->register($provider);
+        }
     }
 
     /**
      * Set and get current key on runtime.
-     *
-     * @return string
      */
-    public static function key($key = null)
+    public static function key($key = null): string
     {
         return $key ? static::$key = $key : static::$key;
     }
