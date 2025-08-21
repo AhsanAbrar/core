@@ -9,7 +9,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            CoreServiceProvider::class,
+            \Spanvel\CoreServiceProvider::class,
         ];
     }
 }
