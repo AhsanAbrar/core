@@ -31,32 +31,32 @@ class ServePackage
      */
     public function handle($request, $next)
     {
-// Get all routes
-$routes = collect(Route::getRoutes())->map(function ($route) {
-    return [
-        'uri'    => $route->uri(),        // e.g. "posts/{id}/edit"
-        'method' => $route->methods(),    // e.g. ["GET", "HEAD"]
-        'name'   => $route->getName(),    // e.g. "posts.edit"
-        'action' => $route->getActionName(), // e.g. "App\Http\Controllers\PostController@edit"
-    ];
-})->toArray();
+        // Get all routes
+        $routes = collect(Route::getRoutes())->map(function ($route) {
+            return [
+                'uri' => $route->uri(),        // e.g. "posts/{id}/edit"
+                'method' => $route->methods(),    // e.g. ["GET", "HEAD"]
+                'name' => $route->getName(),    // e.g. "posts.edit"
+                'action' => $route->getActionName(), // e.g. "App\Http\Controllers\PostController@edit"
+            ];
+        })->toArray();
 
-$uris = collect(Route::getRoutes())
-    ->map(fn($route) => $route->uri())
-    ->toArray();
+        $uris = collect(Route::getRoutes())
+            ->map(fn ($route) => $route->uri())
+            ->toArray();
 
-$firstSegments = collect(Route::getRoutes())
-    ->map(fn($route) => ltrim($route->uri(), '/'))
-    ->filter()
-    ->map(fn($uri) => Str::before($uri, '/'))
-    ->unique()
-    ->values()
-    ->all();
+        $firstSegments = collect(Route::getRoutes())
+            ->map(fn ($route) => ltrim($route->uri(), '/'))
+            ->filter()
+            ->map(fn ($uri) => Str::before($uri, '/'))
+            ->unique()
+            ->values()
+            ->all();
 
-// Example dump
-dd( $firstSegments );
-dd( $uris );
-dd($routes);
+        // Example dump
+        dd($firstSegments);
+        dd($uris);
+        dd($routes);
 
         $this->setSegments($request);
 
@@ -79,10 +79,10 @@ dd($routes);
         // waiting for better idea.
 
         // if ($request->hasHeader('X-Livewire')) {
-            // $path = explode('/', $request->fingerprint['path']);
-            // $this->segmentOne = $path[0] ?? null;
-            // $this->segmentTwo = $path[1] ?? null;
-            // return;
+        // $path = explode('/', $request->fingerprint['path']);
+        // $this->segmentOne = $path[0] ?? null;
+        // $this->segmentTwo = $path[1] ?? null;
+        // return;
         // }
 
         $this->segmentOne = $request->segment(1);
@@ -112,7 +112,7 @@ dd($routes);
 
         if (array_key_exists($key, $providers)) {
             Span::key($key);
-            Span::prefix($hasPrefix ? config('span.prefix') . '/' . $key : $key);
+            Span::prefix($hasPrefix ? config('span.prefix').'/'.$key : $key);
 
             return $providers[$key];
         } elseif (array_key_exists('', $providers)) {
