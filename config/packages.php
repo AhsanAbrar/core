@@ -13,12 +13,6 @@ return [
     |
     */
 
-    'prefix' => 'prefix',
-
-    'prefix_providers' => [
-        // 'blog' => Blog\BlogServiceProvider::class,
-    ],
-
     'providers' => [
         // '' => Site\SiteServiceProvider::class,
         // 'admin' => Admin\AdminServiceProvider::class,
