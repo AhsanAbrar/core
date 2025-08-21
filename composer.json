@@ -27,8 +27,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spanvel\\CoreServiceProvider",
-                "Spanvel\\AuthorizationServiceProvider"
+                "Spanvel\\CoreServiceProvider"
             ]
         }
     },
