@@ -14,13 +14,6 @@ class ServePackage
     protected $segmentOne;
 
     /**
-     * The request segment 2.
-     *
-     * @var string
-     */
-    protected $segmentTwo;
-
-    /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -57,7 +50,6 @@ class ServePackage
         // }
 
         $this->segmentOne = $request->segment(1);
-        $this->segmentTwo = $request->segment(2);
     }
 
     /**
@@ -71,7 +63,7 @@ class ServePackage
         // i have to refactor this whole block.
         // waiting for better idea.
 
-        if (in_array($this->segmentOne, config('span.excluded_routes'))) {
+        if (in_array($this->segmentOne, config('packages.excluded_routes'))) {
             return false;
         }
 
