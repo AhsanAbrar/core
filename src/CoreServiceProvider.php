@@ -4,7 +4,8 @@ namespace Spanvel;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
-use Spanvel\Http\Middleware\ServePackage;
+// use Spanvel\Http\Middleware\ServePackage;
+use Spanvel\Http\Middleware\ResolvePackage;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,10 @@ class CoreServiceProvider extends ServiceProvider
             Package::registerAllProviders();
         }
 
+        // $this->app->make(HttpKernel::class)
+            // ->pushMiddleware(ServePackage::class);
+
         $this->app->make(HttpKernel::class)
-            ->pushMiddleware(ServePackage::class);
+            ->pushMiddleware(ResolvePackage::class);
     }
 }
