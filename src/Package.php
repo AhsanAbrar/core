@@ -10,6 +10,14 @@ class Package
     public static string $key = '';
 
     /**
+     * Create a new Span builder instance.
+     */
+    public static function boot(string $packagePath): PackageBoot
+    {
+        return PackageBoot::make($packagePath);
+    }
+
+    /**
      * Register all span service providers.
      */
     public static function registerAllProviders(): void
