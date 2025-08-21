@@ -26,7 +26,7 @@ class CoreServiceProvider extends ServiceProvider
         //     Span::registerAllProviders();
         // }
 
-        $this->app->make(HttpKernel::class)
-            ->pushMiddleware(ServePackage::class);
+        // $this->app->make(HttpKernel::class)
+        //     ->pushMiddleware(ServePackage::class);
     }
 }
