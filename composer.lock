@@ -7600,7 +7600,7 @@
         },
         {
             "name": "pestphp/pest-plugin-profanity",
-            "version": "v4.0.0",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest-plugin-profanity.git",
@@ -7650,8 +7650,7 @@
                 "unit"
             ],
             "support": {
-                "issues": "https://github.com/pestphp/pest-plugin-profanity/issues",
-                "source": "https://github.com/pestphp/pest-plugin-profanity/tree/v4.0.0"
+                "source": "https://github.com/pestphp/pest-plugin-profanity/tree/v4.0.1"
             },
             "time": "2025-08-20T12:58:03+00:00"
         },
