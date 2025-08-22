@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Spanvel\Support\Facades\Package;
 
-class ServePackage
+class RegisterPackage
 {
+    /**
+     * Dynamically register a package service provider based on the
+     * first URI segment of the request.
+     *
+     * - Skips registration if the segment is in the excluded list.
+     * - Registers the matching provider when a direct segment match exists.
+     * - Falls back to the root provider (key: '') if no match is found.
+     */
     public function handle(Request $request, Closure $next): Response
     {
         $segment   = (string) $request->segment(1);
