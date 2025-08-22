@@ -4,62 +4,51 @@ namespace Spanvel\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Spanvel\Support\Facades\Package;
 
 class RegisterPackage
 {
     /**
-     * Handle an incoming request.
+     * Resolve the package key from the first URI segment and
+     * register the appropriate service provider for this request.
+     *
+     * Rules:
+     * - If segment is in `packages.excluded_segments`: set key to '' and register nothing.
+     * - If segment is empty or unknown: set key to '' and register the root provider (if configured).
+     * - If segment matches a configured provider: set key to that segment and register its provider.
      */
     public function handle(Request $request, Closure $next)
     {
-        [$providers, $excluded] = [
-            (array) config('packages.providers', []),
-            (array) config('packages.excluded_segments', config('packages.excluded_routes', [])),
-        ];
+        $providers = (array) config('packages.providers', []);
+        $excluded  = (array) config('packages.excluded_segments', []);
 
-        // Normalize first segment (null => ''), lowercase for safer matching.
-        $segment = Str::lower((string) ($request->segment(1) ?? ''));
-        $segment = $segment === null ? '' : $segment;
+        $segment = (string) ($request->segment(1) ?? '');
 
-        // If excluded (e.g. login, register), skip all package registration.
+        // Excluded segments: do not register any provider; key remains root ('')
         if ($segment !== '' && in_array($segment, $excluded, true)) {
+            Package::key(''); // explicit for clarity
             return $next($request);
         }
 
-        // Always register the default/root provider if configured.
-        // This allows the root package to serve its own routes like /foo, /bar, etc.
-        if (array_key_exists('', $providers)) {
-            $this->registerOnce($providers['']);
-        }
+        // Known segment → use that provider; otherwise fall back to root ('')
+        $key = ($segment !== '' && array_key_exists($segment, $providers)) ? $segment : '';
 
-        // If first segment maps to a specific provider, register it too.
-        if ($segment !== '' && array_key_exists($segment, $providers)) {
-            Package::setKey($segment);
-            $this->registerOnce($providers[$segment]);
+        // Persist per-request key (facade -> scoped context)
+        Package::key($key);
+
+        // Register the appropriate provider (if any), guarding against double-registration
+        if ($key === '') {
+            if (isset($providers['']) && ! app()->providerIsLoaded($providers[''])) {
+                app()->register($providers['']);
+            }
         } else {
-            // Otherwise, treat as root.
-            Package::setKey('');
+            $provider = $providers[$key] ?? null;
+
+            if ($provider && ! app()->providerIsLoaded($provider)) {
+                app()->register($provider);
+            }
         }
 
         return $next($request);
-    }
-
-    /**
-     * Register the given provider if it isn't already loaded.
-     */
-    protected function registerOnce(string $provider): void
-    {
-        $app = app();
-
-        // Laravel keeps a list of loaded providers we can check.
-        $loaded = method_exists($app, 'getLoadedProviders')
-            ? $app->getLoadedProviders()
-            : [];
-
-        if (! isset($loaded[$provider]) || $loaded[$provider] !== true) {
-            $app->register($provider);
-        }
     }
 }
