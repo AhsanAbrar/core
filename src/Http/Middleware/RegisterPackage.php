@@ -28,9 +28,7 @@ class RegisterPackage
     }
 
     /**
-     * Resolve the service provider for the given URI segment.
-     *
-     * Returns null if the segment is excluded or no provider exists.
+     * Resolve the provider for the given segment.
      *
      * @param  string  $segment
      * @return string|null
