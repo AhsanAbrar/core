@@ -5,7 +5,7 @@ namespace Spanvel\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Spanvel\Package;
+use Spanvel\Support\Facades\Package;
 
 class RegisterPackage
 {
@@ -36,11 +36,11 @@ class RegisterPackage
 
         // If first segment maps to a specific provider, register it too.
         if ($segment !== '' && array_key_exists($segment, $providers)) {
-            Package::key($segment);
+            Package::setKey($segment);
             $this->registerOnce($providers[$segment]);
         } else {
             // Otherwise, treat as root.
-            Package::key('');
+            Package::setKey('');
         }
 
         return $next($request);
