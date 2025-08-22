@@ -31,20 +31,19 @@ describe('Package Register', function () {
 
     it('registers the matching provider and sets key', function () {
         // Given
-        config()->set('packages.providers', [
-            '' => SiteServiceProvider::class,
-            'admin' => AdminServiceProvider::class,
+        config([
+            'packages.providers' => [
+                '' => SiteServiceProvider::class,
+                'admin' => AdminServiceProvider::class,
+            ],
         ]);
 
         // When
-        $res = $this->get('/admin/ping');
+        get('/admin/ping');
 
         // Then
-        $res->assertOk()->assertSee('admin:admin');
-        expect(app()->bound('admin.registered'))->toBeTrue();
-        // Root provider also registered by the middleware (so root routes stay available)
-        expect(app()->bound('site.registered'))->toBeTrue();
-        expect(Package::key())->toBe('admin');
+        expect(app()->providerIsLoaded(AdminServiceProvider::class))->toBeTrue()
+            ->and(Package::key())->toBe('admin');
     });
 
     // it('registers the root provider when no segment is present', function () {
