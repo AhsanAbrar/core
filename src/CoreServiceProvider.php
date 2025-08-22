@@ -22,9 +22,9 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
-            Package::registerAllProviders();
-        }
+        // if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
+        //     Package::registerAllProviders();
+        // }
 
         $this->app->make(HttpKernel::class)
             ->pushMiddleware(RegisterPackage::class);
