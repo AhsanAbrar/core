@@ -27,7 +27,7 @@ class CoreServiceProvider extends ServiceProvider
         }
 
         // $this->app->make(HttpKernel::class)
-            // ->pushMiddleware(ServePackage::class);
+        // ->pushMiddleware(ServePackage::class);
 
         $this->app->make(HttpKernel::class)
             ->pushMiddleware(ResolvePackage::class);
