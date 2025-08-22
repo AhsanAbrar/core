@@ -17,12 +17,17 @@ describe('PackageBoot routes', function () {
     });
 
     it('applies the "web" middleware group', function () {
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '');
+        get('/hello');
+
+        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === 'hello');
+        expect($route)->not->toBeNull();
         expect(collect($route->gatherMiddleware()))->toContain('web');
     });
 
     it('does not set domain or controller by default', function () {
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '');
+        get('/');
+
+        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '/');
         expect($route->getDomain())->toBeNull();
         expect($route->getAction('controller'))->toBeNull();
     });
