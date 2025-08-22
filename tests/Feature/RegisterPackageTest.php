@@ -10,31 +10,22 @@ class SiteServiceProvider extends BaseServiceProvider {}
 class AdminServiceProvider extends BaseServiceProvider {}
 
 describe('Package Register', function () {
+    it('skips registration when the segment is excluded', function () {
+        config([
+            'packages.providers' => [
+                '' => SiteServiceProvider::class,
+                'admin' => AdminServiceProvider::class,
+            ],
+            'packages.excluded_segments' => ['login'],
+        ]);
 
-    describe('Excluded guard', function () {
-        it('skips registration when the segment is excluded', function () {
-            // Given
-            config([
-                'packages.providers' => [
-                    '' => SiteServiceProvider::class,
-                    'admin' => AdminServiceProvider::class,
-                ],
-                'packages.excluded_segments' => ['login'],
-            ]);
+        Route::get('login', fn () => 'login page');
 
-            Route::get('login', fn () => 'login page');
+        get('/login')->assertOk();
 
-            // When + Then
-            get('/login')
-                ->assertOk()
-                ->assertSee('login page'); // optional: confirms our test route was hit
-
-            // should NOT register either provider, and key remains root ('')
-            expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeFalse()
-                ->and(app()->providerIsLoaded(AdminServiceProvider::class))->toBeFalse()
-                ->and(Package::key())->toBe('');
-        });
-
+        expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeFalse()
+            ->and(app()->providerIsLoaded(AdminServiceProvider::class))->toBeFalse()
+            ->and(Package::key())->toBe('');
     });
 
     describe('Direct match', function () {
