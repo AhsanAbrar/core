@@ -26,9 +26,6 @@ class CoreServiceProvider extends ServiceProvider
             Package::registerAllProviders();
         }
 
-        // $this->app->make(HttpKernel::class)
-        // ->pushMiddleware(ServePackage::class);
-
         $this->app->make(HttpKernel::class)
             ->pushMiddleware(RegisterPackage::class);
     }
