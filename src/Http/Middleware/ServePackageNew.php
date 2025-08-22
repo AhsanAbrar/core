@@ -2,7 +2,7 @@
 
 namespace Spanvel\Http\Middleware;
 
-use Spanvel\Package;
+use Spanvel\Support\Facades\Package;
 
 class ServePackageNew
 {
@@ -39,17 +39,7 @@ class ServePackageNew
      */
     protected function setSegments($request)
     {
-        // i have to refactor this whole block.
-        // waiting for better idea.
-
-        // if ($request->hasHeader('X-Livewire')) {
-        // $path = explode('/', $request->fingerprint['path']);
-        // $this->segmentOne = $path[0] ?? null;
-        // $this->segmentTwo = $path[1] ?? null;
-        // return;
-        // }
-
-        $this->segmentOne = $request->segment(1);
+        $this->segmentOne = $request->segment(1) ?? '';
     }
 
     /**
@@ -60,10 +50,7 @@ class ServePackageNew
      */
     protected function isPackageRequest($request)
     {
-        // i have to refactor this whole block.
-        // waiting for better idea.
-
-        if (in_array($this->segmentOne, config('packages.excluded_routes'))) {
+        if (in_array($this->segmentOne, config('packages.excluded_segments'))) {
             return false;
         }
 
@@ -71,7 +58,7 @@ class ServePackageNew
         $providers = config('packages.providers');
 
         if (array_key_exists($key, $providers)) {
-            Package::key($key);
+            Package::setKey($key);
 
             return $providers[$key];
         } elseif (array_key_exists('', $providers)) {
