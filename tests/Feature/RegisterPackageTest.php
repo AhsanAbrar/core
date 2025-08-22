@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spanvel\Package;
 use Tests\Fixtures\BaseServiceProvider;
+
 use function Pest\Laravel\get;
 
 class SiteServiceProvider extends BaseServiceProvider {}
@@ -23,16 +24,17 @@ describe('Package Register', function () {
 
             Route::get('login', fn () => 'login page');
 
-            // When
-            get('/login')->assertOk();
+            // When + Then
+            get('/login')
+                ->assertOk()
+                ->assertSee('login page'); // optional: confirms our test route was hit
 
-            // should NOT register either provider
-            expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeFalse();
-            expect(app()->providerIsLoaded(AdminServiceProvider::class))->toBeFalse();
-
-            // key should remain the root/default
-            expect(Package::key())->toBe('');
+            // should NOT register either provider, and key remains root ('')
+            expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeFalse()
+                ->and(app()->providerIsLoaded(AdminServiceProvider::class))->toBeFalse()
+                ->and(Package::key())->toBe('');
         });
+
     });
 
     describe('Direct match', function () {
