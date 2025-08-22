@@ -5,19 +5,12 @@ namespace Spanvel\Package;
 class PackageContext
 {
     /**
-     * The current package key for this request lifecycle.
+     * The current package key.
      */
     protected string $key = '';
 
     /**
-     * Create a fluent registrar for the given package base path.
-     *
-     * The path should point to the package's root directory (typically __DIR__).
-     * From this base, conventional subpaths like "resources/views" and "routes/*.php"
-     * will be resolved by the registrar.
-     *
-     * Example:
-     *  Package::boot(__DIR__)->views()->webRoutes()->apiRoutes();
+     * Get a registrar instance for the given package base path.
      */
     public function boot(string $packagePath): PackageBoot
     {
@@ -26,9 +19,6 @@ class PackageContext
 
     /**
      * Get or set the current package key.
-     *
-     * When $key is provided, it will be set and the new value returned.
-     * When omitted, the current key will be returned.
      */
     public function key(?string $key = null): string
     {
@@ -40,7 +30,7 @@ class PackageContext
     }
 
     /**
-     * Explicitly set the current package key.
+     * Set the current package key.
      */
     public function setKey(string $key): void
     {
@@ -48,7 +38,7 @@ class PackageContext
     }
 
     /**
-     * Reset the current package key to the default.
+     * Reset the package key.
      */
     public function reset(): void
     {
