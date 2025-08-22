@@ -12,7 +12,7 @@ class ServePackageNew
         // Given
         // first segment of the request
         // or first segment null
-        $segment   = (string) $request->segment(1);
+        $segment = (string) $request->segment(1);
         dd($segment);
 
         return $next($request);

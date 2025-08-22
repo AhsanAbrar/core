@@ -4,8 +4,8 @@ namespace Spanvel\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Spanvel\Support\Facades\Package;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterPackage
 {
@@ -18,9 +18,9 @@ class RegisterPackage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $segment   = (string) $request->segment(1);
+        $segment = (string) $request->segment(1);
         $providers = config('packages.providers', []);
-        $excluded  = config('packages.excluded_segments', []);
+        $excluded = config('packages.excluded_segments', []);
 
         if ($segment !== '' && in_array($segment, $excluded, true)) {
             return $next($request);
