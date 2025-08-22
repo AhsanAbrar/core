@@ -37,14 +37,7 @@ return [
     */
 
     'excluded_segments' => [
-        'login',
-        'register',
-        'forgot-password',
-        'reset-password',
-        'verify-email',
-        'email',
-        'confirm-password',
-        'logout',
+        //
     ],
 
 ];
