@@ -70,4 +70,5 @@ describe('Package Register', function () {
         expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeTrue()
             ->and(Package::key())->toBe('');
     });
+
 });
