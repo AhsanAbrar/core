@@ -1,6 +1,6 @@
 <?php
 
-use Tests\Fixtures\Site\src\SiteServiceProvider;
+use Tests\Fixtures\Site\Src\SiteServiceProvider;
 
 use function Pest\Laravel\get;
 

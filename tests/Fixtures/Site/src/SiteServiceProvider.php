@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixtures\Site\src;
+namespace Tests\Fixtures\Site\Src;
 
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Support\Facades\Package;
