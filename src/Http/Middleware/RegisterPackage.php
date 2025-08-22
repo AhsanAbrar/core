@@ -36,9 +36,8 @@ class RegisterPackage
     protected function resolveProvider(string $segment): ?string
     {
         $providers = (array) config('packages.providers', []);
-        $excluded  = (array) config('packages.excluded_segments', []);
 
-        if ($segment !== '' && in_array($segment, $excluded, true)) {
+        if ($this->isExcluded($segment)) {
             return null;
         }
 
@@ -49,5 +48,12 @@ class RegisterPackage
         }
 
         return $providers[''] ?? null;
+    }
+
+    protected function isExcluded(string $segment): bool
+    {
+        $excluded = (array) config('packages.excluded_segments', []);
+
+        return $segment !== '' && in_array($segment, $excluded, true);
     }
 }
