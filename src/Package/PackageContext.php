@@ -39,4 +39,9 @@ class PackageContext
     {
         $this->key = '';
     }
+
+    public function boot(string $packagePath): PackageBoot
+    {
+        return new PackageBoot($packagePath);
+    }
 }
