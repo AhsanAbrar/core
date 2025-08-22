@@ -6,7 +6,7 @@ use function Pest\Laravel\get;
 
 describe('PackageBoot views', function () {
     beforeEach(function () {
-        $this->app->register(SiteServiceProvider::class);
+        app()->register(SiteServiceProvider::class);
     });
 
     it('prepends the package resources/views path', function () {
