@@ -5,7 +5,7 @@ namespace Tests\Fixtures\Site\Src;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Support\Facades\Package;
 
-class SiteServiceProviderWithWebRoutesOptions extends ServiceProvider
+class SiteServiceProviderWithRoutesOptions extends ServiceProvider
 {
     public function register(): void
     {
@@ -20,6 +20,9 @@ class SiteServiceProviderWithWebRoutesOptions extends ServiceProvider
                 middleware: ['web', 'auth'],
                 prefix: 'foo',
             )
-            ->apiRoutes();
+            ->apiRoutes(
+                middleware: ['api', 'auth'],
+                prefix: 'custom-api',
+            );
     }
 }
