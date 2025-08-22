@@ -4,92 +4,31 @@ namespace Spanvel\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Spanvel\Support\Facades\Package;
 
-class RegisterPackage
+class ServePackage
 {
-    /**
-     * Cached per-request config.
-     */
-    protected array $providers;
-
-    protected array $excluded;
-
-    public function __construct()
+    public function handle(Request $request, Closure $next): Response
     {
-        $this->providers = (array) config('packages.providers', []);
-        $this->excluded = (array) config('packages.excluded_segments', []);
-    }
+        $segment   = (string) $request->segment(1);
+        $providers = config('packages.providers', []);
+        $excluded  = config('packages.excluded_segments', []);
 
-    /**
-     * Resolve the active package key and register its provider (if any).
-     */
-    public function handle(Request $request, Closure $next)
-    {
-        $segment = $this->segment($request);
-
-        // Excluded: keep root context and register nothing.
-        if ($this->isExcluded($segment)) {
-            Package::key('');
-
+        // Short-circuit: skip dynamic registration if excluded
+        if ($segment !== '' && in_array($segment, $excluded, true)) {
             return $next($request);
         }
 
-        $key = $this->keyFor($segment);
+        // Resolve provider: direct match or fallback ('')
+        $provider = $providers[$segment] ?? ($providers[''] ?? null);
 
-        Package::key($key);
+        if ($provider) {
+            Package::setKey($segment);
 
-        if ($provider = $this->providerFor($key)) {
-            $this->registerOnce($provider);
+            app()->register($provider);
         }
 
         return $next($request);
-    }
-
-    /**
-     * First URI segment as string.
-     */
-    protected function segment(Request $request): string
-    {
-        return (string) ($request->segment(1) ?? '');
-    }
-
-    /**
-     * Whether the segment is excluded from package resolution.
-     */
-    protected function isExcluded(string $segment): bool
-    {
-        return $segment !== '' && in_array($segment, $this->excluded, true);
-    }
-
-    /**
-     * Decide which key to use:
-     * - known non-empty segment => that segment
-     * - empty or unknown        => root ('')
-     */
-    protected function keyFor(string $segment): string
-    {
-        return ($segment !== '' && array_key_exists($segment, $this->providers))
-            ? $segment
-            : '';
-    }
-
-    /**
-     * Map key to provider class, handling root fallback.
-     */
-    protected function providerFor(string $key): ?string
-    {
-        return $this->providers[$key]
-            ?? ($key === '' ? ($this->providers[''] ?? null) : null);
-    }
-
-    /**
-     * Register a provider once for this request.
-     */
-    protected function registerOnce(string $provider): void
-    {
-        if (! app()->providerIsLoaded($provider)) {
-            app()->register($provider);
-        }
     }
 }
