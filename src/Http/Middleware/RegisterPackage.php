@@ -22,7 +22,7 @@ class RegisterPackage
     }
 
     /**
-     * Resolve a provider for the given URI segment.
+     * Resolve the provider for the given segment.
      */
     protected function resolveProvider(string $segment): ?string
     {
@@ -36,6 +36,9 @@ class RegisterPackage
             ?? $this->fallbackProvider($providers);
     }
 
+    /**
+     * Get the direct-match provider for the segment.
+     */
     protected function directProvider(string $segment, array $providers): ?string
     {
         if ($segment === '' || ! isset($providers[$segment])) {
@@ -47,21 +50,33 @@ class RegisterPackage
         return $providers[$segment];
     }
 
+    /**
+     * Get the fallback provider.
+     */
     protected function fallbackProvider(array $providers): ?string
     {
         return $providers[''] ?? null;
     }
 
+    /**
+     * Determine if the segment is excluded.
+     */
     protected function isExcluded(string $segment): bool
     {
         return $segment !== '' && in_array($segment, $this->excludedSegments(), true);
     }
 
+    /**
+     * Get the provider map.
+     */
     protected function providers(): array
     {
         return (array) config('packages.providers', []);
     }
 
+    /**
+     * Get the excluded segments.
+     */
     protected function excludedSegments(): array
     {
         return (array) config('packages.excluded_segments', []);
