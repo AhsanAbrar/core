@@ -14,9 +14,7 @@ class RegisterPackage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $segment = (string) $request->segment(1);
-
-        if ($provider = $this->resolveProvider($segment)) {
+        if ($provider = $this->resolveProvider((string) $request->segment(1))) {
             app()->register($provider);
         }
 
@@ -24,7 +22,7 @@ class RegisterPackage
     }
 
     /**
-     * Resolve the provider for the given segment.
+     * Resolve a provider for the given URI segment.
      */
     protected function resolveProvider(string $segment): ?string
     {
@@ -32,21 +30,40 @@ class RegisterPackage
             return null;
         }
 
-        $providers = (array) config('packages.providers', []);
+        $providers = $this->providers();
 
+        return $this->directProvider($segment, $providers)
+            ?? $this->fallbackProvider($providers);
+    }
+
+    protected function directProvider(string $segment, array $providers): ?string
+    {
         if ($segment !== '' && isset($providers[$segment])) {
             Package::setKey($segment);
 
             return $providers[$segment];
         }
 
+        return null;
+    }
+
+    protected function fallbackProvider(array $providers): ?string
+    {
         return $providers[''] ?? null;
     }
 
     protected function isExcluded(string $segment): bool
     {
-        $excluded = (array) config('packages.excluded_segments', []);
+        return $segment !== '' && in_array($segment, $this->excludedSegments(), true);
+    }
 
-        return $segment !== '' && in_array($segment, $excluded, true);
+    protected function providers(): array
+    {
+        return (array) config('packages.providers', []);
+    }
+
+    protected function excludedSegments(): array
+    {
+        return (array) config('packages.excluded_segments', []);
     }
 }
