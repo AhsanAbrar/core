@@ -9,102 +9,87 @@ use Spanvel\Support\Facades\Package;
 class RegisterPackage
 {
     /**
-     * Resolve the active package key for this request and register its provider.
+     * Cached per-request config.
+     */
+    protected array $providers;
+
+    protected array $excluded;
+
+    public function __construct()
+    {
+        $this->providers = (array) config('packages.providers', []);
+        $this->excluded = (array) config('packages.excluded_segments', []);
+    }
+
+    /**
+     * Resolve the active package key and register its provider (if any).
      */
     public function handle(Request $request, Closure $next)
     {
-        $segment = $this->firstSegment($request);
+        $segment = $this->segment($request);
 
+        // Excluded: keep root context and register nothing.
         if ($this->isExcluded($segment)) {
-            Package::key(''); // stay at root, register nothing
+            Package::key('');
 
             return $next($request);
         }
 
-        $key = $this->resolveKey($segment);
+        $key = $this->keyFor($segment);
 
         Package::key($key);
 
-        $this->registerForKey($key);
+        if ($provider = $this->providerFor($key)) {
+            $this->registerOnce($provider);
+        }
 
         return $next($request);
     }
 
     /**
-     * Get the first URI segment as a normalized string.
+     * First URI segment as string.
      */
-    protected function firstSegment(Request $request): string
+    protected function segment(Request $request): string
     {
         return (string) ($request->segment(1) ?? '');
     }
 
     /**
-     * Determine if the segment is excluded from package resolution.
+     * Whether the segment is excluded from package resolution.
      */
     protected function isExcluded(string $segment): bool
     {
-        if ($segment === '') {
-            return false;
-        }
-
-        return in_array($segment, $this->excludedSegments(), true);
+        return $segment !== '' && in_array($segment, $this->excluded, true);
     }
 
     /**
-     * Decide which key to use based on configured providers.
-     * - known non-empty segment → that segment
-     * - empty or unknown → root ('')
+     * Decide which key to use:
+     * - known non-empty segment => that segment
+     * - empty or unknown        => root ('')
      */
-    protected function resolveKey(string $segment): string
+    protected function keyFor(string $segment): string
     {
-        if ($segment === '') {
-            return '';
-        }
-
-        return array_key_exists($segment, $this->providers()) ? $segment : '';
+        return ($segment !== '' && array_key_exists($segment, $this->providers))
+            ? $segment
+            : '';
     }
 
     /**
-     * Register the provider for the resolved key (if any), guarding against duplicates.
+     * Map key to provider class, handling root fallback.
      */
-    protected function registerForKey(string $key): void
+    protected function providerFor(string $key): ?string
     {
-        $providers = $this->providers();
-
-        $provider = $key === ''
-            ? ($providers[''] ?? null)
-            : ($providers[$key] ?? null);
-
-        $this->maybeRegister($provider);
+        return $this->providers[$key]
+            ?? ($key === '' ? ($this->providers[''] ?? null) : null);
     }
 
     /**
-     * Register a provider class if present and not yet loaded.
+     * Register a provider once for this request.
      */
-    protected function maybeRegister(?string $provider): void
+    protected function registerOnce(string $provider): void
     {
-        if (! $provider) {
-            return;
-        }
-
         if (! app()->providerIsLoaded($provider)) {
             app()->register($provider);
         }
-    }
-
-    /**
-     * Config: map of segment => provider class.
-     */
-    protected function providers(): array
-    {
-        return (array) config('packages.providers', []);
-    }
-
-    /**
-     * Config: excluded segments (no registration; key stays root).
-     */
-    protected function excludedSegments(): array
-    {
-        return (array) config('packages.excluded_segments', []);
     }
 }
