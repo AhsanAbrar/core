@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spanvel\Package;
 use Tests\Fixtures\BaseServiceProvider;
+use function Pest\Laravel\get;
 
 class SiteServiceProvider extends BaseServiceProvider {}
 class AdminServiceProvider extends BaseServiceProvider {}
@@ -23,10 +24,7 @@ describe('Package Register', function () {
             Route::get('login', fn () => 'login page');
 
             // When
-            $response = $this->get('/login');
-
-            // Then
-            $response->assertOk();
+            get('/login')->assertOk();
 
             // should NOT register either provider
             expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeFalse();
