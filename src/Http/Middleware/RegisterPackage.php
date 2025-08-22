@@ -29,7 +29,9 @@ class RegisterPackage
         $provider = $providers[$segment] ?? ($providers[''] ?? null);
 
         if ($provider) {
-            Package::setKey($segment);
+            if ($segment !== '' && isset($providers[$segment])) {
+                Package::setKey($segment);
+            }
 
             app()->register($provider);
         }
