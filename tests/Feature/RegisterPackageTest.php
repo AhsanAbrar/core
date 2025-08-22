@@ -43,36 +43,32 @@ describe('Package Register', function () {
             ->and(Package::key())->toBe('admin');
     });
 
-    // it('registers the root provider when no segment is present', function () {
-    //     // Given
-    //     config()->set('packages.providers', [
-    //         '' => SiteServiceProvider::class,
-    //     ]);
+    it('registers the root provider when no segment is present', function () {
+        config([
+            'packages.providers' => [
+                '' => SiteServiceProvider::class,
+                'admin' => AdminServiceProvider::class,
+            ],
+        ]);
 
-    //     // When
-    //     $res = $this->get('/ping'); // defined by root provider
+        get('/');
 
-    //     // Then
-    //     $res->assertOk()->assertSee('site-ping');
-    //     expect(app()->bound('site.registered'))->toBeTrue();
-    //     expect(Package::key())->toBe(''); // empty key for root
-    // });
+        expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeTrue()
+            ->and(Package::key())->toBe('');
+    });
 
-    // it('registers the root provider when the segment is unknown', function () {
-    //     // Given
-    //     config()->set('packages.providers', [
-    //         '' => SiteServiceProvider::class,
-    //         // no mapping for "unknown"
-    //     ]);
-    //     config()->set('packages.excluded_segments', ['login', 'register', 'logout']);
+    it('registers the root provider when the segment is unknown', function () {
+        config([
+            'packages.providers' => [
+                '' => SiteServiceProvider::class,
+                'admin' => AdminServiceProvider::class,
+            ],
+        ]);
 
-    //     // When
-    //     $res = $this->get('/unknown');
+        get('/unknown');
 
-    //     // Then
-    //     $res->assertStatus(404);
-    //     expect(app()->bound('site.registered'))->toBeTrue();
-    //     expect(Package::key())->toBe(''); // empty key for root
-    // });
+        expect(app()->providerIsLoaded(SiteServiceProvider::class))->toBeTrue()
+            ->and(Package::key())->toBe('');
+    });
 
 });
