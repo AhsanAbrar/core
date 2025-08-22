@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Tests\Fixtures\Site\Src\SiteServiceProvider;
 use function Pest\Laravel\get;
 
-describe('PackageBoot routes', function () {
+describe('PackageBoot web routes', function () {
     beforeEach(function () {
         $this->app->register(SiteServiceProvider::class);
     });
@@ -30,5 +30,32 @@ describe('PackageBoot routes', function () {
         $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '/');
         expect($route->getDomain())->toBeNull();
         expect($route->getAction('controller'))->toBeNull();
+    });
+});
+
+describe('PackageBoot api routes', function () {
+    beforeEach(function () {
+        $this->app->register(SiteServiceProvider::class);
+    });
+
+    it('uses {Package::key()}/api as the prefix', function () {
+        get('/api/ping')->assertOk()->assertJson(['ok' => true]);
+    });
+
+    it('applies only the "api" middleware group', function () {
+        get('/api/ping');
+
+        $apiRoute = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === 'api/ping');
+        $apiMW = collect($apiRoute->gatherMiddleware());
+        expect($apiMW)->toContain('api');
+        expect($apiMW)->not->toContain('web');
+    });
+
+    it('does not set domain or controller by default', function () {
+        get('/api/ping');
+
+        $apiRoute = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === 'api/ping');
+        expect($apiRoute->getDomain())->toBeNull();
+        expect($apiRoute->getAction('controller'))->toBeNull();
     });
 });
