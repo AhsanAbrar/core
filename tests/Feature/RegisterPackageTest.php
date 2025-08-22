@@ -30,7 +30,6 @@ describe('Package Register', function () {
     });
 
     it('registers the matching provider and sets key', function () {
-        // Given
         config([
             'packages.providers' => [
                 '' => SiteServiceProvider::class,
@@ -38,10 +37,8 @@ describe('Package Register', function () {
             ],
         ]);
 
-        // When
         get('/admin/ping');
 
-        // Then
         expect(app()->providerIsLoaded(AdminServiceProvider::class))->toBeTrue()
             ->and(Package::key())->toBe('admin');
     });
