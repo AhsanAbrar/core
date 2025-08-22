@@ -1,17 +1,29 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Tests\Fixtures\Site\Src\SiteServiceProvider;
-
 use function Pest\Laravel\get;
 
 describe('PackageBoot routes', function () {
     beforeEach(function () {
-        app()->register(SiteServiceProvider::class);
+        $this->app->register(SiteServiceProvider::class);
     });
 
-    it('prepends the package resources/views path', function () {
-        get('/hello')
-            ->assertOk()
-            ->assertSee('From Package View', false);
+    it('should load web routes', function () {
+        get('/')->assertOk()->assertSee('site-web-root');
+
+        $uris = collect(Route::getRoutes())->map->uri();
+        expect($uris)->toContain('hello');
+    });
+
+    it('applies the "web" middleware group', function () {
+        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '');
+        expect(collect($route->gatherMiddleware()))->toContain('web');
+    });
+
+    it('does not set domain or controller by default', function () {
+        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '');
+        expect($route->getDomain())->toBeNull();
+        expect($route->getAction('controller'))->toBeNull();
     });
 });
