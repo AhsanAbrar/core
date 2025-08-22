@@ -28,13 +28,13 @@ class RegisterPackage
      */
     protected function resolveProvider(string $segment): ?string
     {
-        $providers = (array) config('packages.providers', []);
-
         if ($this->isExcluded($segment)) {
             return null;
         }
 
-        if ($segment !== '' && array_key_exists($segment, $providers)) {
+        $providers = (array) config('packages.providers', []);
+
+        if ($segment !== '' && isset($providers[$segment])) {
             Package::setKey($segment);
 
             return $providers[$segment];
@@ -43,9 +43,6 @@ class RegisterPackage
         return $providers[''] ?? null;
     }
 
-    /**
-     * isExcluded
-     */
     protected function isExcluded(string $segment): bool
     {
         $excluded = (array) config('packages.excluded_segments', []);
