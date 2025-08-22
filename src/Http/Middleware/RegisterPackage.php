@@ -38,13 +38,13 @@ class RegisterPackage
 
     protected function directProvider(string $segment, array $providers): ?string
     {
-        if ($segment !== '' && isset($providers[$segment])) {
-            Package::setKey($segment);
-
-            return $providers[$segment];
+        if ($segment === '' || ! isset($providers[$segment])) {
+            return null;
         }
 
-        return null;
+        Package::setKey($segment);
+
+        return $providers[$segment];
     }
 
     protected function fallbackProvider(array $providers): ?string
