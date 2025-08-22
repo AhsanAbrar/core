@@ -5,7 +5,7 @@ namespace Tests\Fixtures\Site\Src;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Support\Facades\Package;
 
-class SiteServiceProviderWithOptions extends ServiceProvider
+class SiteServiceProviderWithWebRoutesOptions extends ServiceProvider
 {
     public function register(): void
     {
