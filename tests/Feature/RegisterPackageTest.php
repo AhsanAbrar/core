@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Spanvel\Package;
+use Spanvel\Support\Facades\Package;
 use Tests\Fixtures\BaseServiceProvider;
-
 use function Pest\Laravel\get;
 
 class SiteServiceProvider extends BaseServiceProvider {}
