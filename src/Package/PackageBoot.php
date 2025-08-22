@@ -29,7 +29,7 @@ class PackageBoot
     public function views(): static
     {
         app('view')->getFinder()->prependLocation(
-            $this->basePath . DIRECTORY_SEPARATOR . 'resources/views'
+            $this->basePath.DIRECTORY_SEPARATOR.'resources/views'
         );
 
         return $this;
@@ -65,7 +65,7 @@ class PackageBoot
         return $this->routes(
             'api.php',
             $middleware ?? 'api',
-            $prefix ?? Package::key() . '/api',
+            $prefix ?? Package::key().'/api',
             $domain,
             $controller,
         );
@@ -97,8 +97,8 @@ class PackageBoot
     ): array {
         return array_filter([
             'middleware' => $middleware,
-            'prefix'     => $prefix,
-            'domain'     => $domain,
+            'prefix' => $prefix,
+            'domain' => $domain,
             'controller' => $controller,
         ], fn ($value) => $value !== null);
     }
@@ -109,8 +109,8 @@ class PackageBoot
     protected function getRoutePath(string $filename): string
     {
         return $this->basePath
-            . '/routes/'
-            . ltrim($filename, '/\\');
+            .'/routes/'
+            .ltrim($filename, '/\\');
     }
 
     /**
