@@ -14,7 +14,9 @@ class RegisterPackage
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($provider = $this->resolveProvider((string) $request->segment(1))) {
+        $segment = (string) $request->segment(1);
+
+        if ($provider = $this->resolveProvider($segment)) {
             app()->register($provider);
         }
 
