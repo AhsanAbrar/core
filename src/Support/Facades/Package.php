@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static string key(?string $key = null)
- * @method static void   reset()
+ * @method static void reset()
  * @method static \Spanvel\PackageBoot boot(string $packagePath)
  *
  * @see \Spanvel\Package\PackageContext

@@ -14,7 +14,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->scoped('spanvel.package', fn () => new PackageContext());
+        $this->app->scoped('spanvel.package', fn () => new PackageContext);
     }
 
     /**
