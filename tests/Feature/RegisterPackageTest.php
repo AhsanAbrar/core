@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spanvel\Support\Facades\Package;
 use Tests\Fixtures\BaseServiceProvider;
+
 use function Pest\Laravel\get;
 
 class SiteServiceProvider extends BaseServiceProvider {}
@@ -11,7 +12,7 @@ class AdminServiceProvider extends BaseServiceProvider {}
 beforeEach(function () {
     config([
         'packages.providers' => [
-            ''      => SiteServiceProvider::class,
+            '' => SiteServiceProvider::class,
             'admin' => AdminServiceProvider::class,
         ],
         'packages.excluded_segments' => [],
