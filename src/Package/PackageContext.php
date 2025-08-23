@@ -2,6 +2,8 @@
 
 namespace Spanvel\Package;
 
+use Spanvel\SpanvelServiceProvider;
+
 class PackageContext
 {
     /**
@@ -43,5 +45,17 @@ class PackageContext
     public function reset(): void
     {
         $this->key = '';
+    }
+
+    /**
+     * Register all packages service providers.
+     */
+    public static function registerAllProviders(): void
+    {
+        app()->register(SpanvelServiceProvider::class);
+
+        foreach (config('packages.providers') as $provider) {
+            app()->register($provider);
+        }
     }
 }
