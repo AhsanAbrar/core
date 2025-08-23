@@ -27,11 +27,11 @@ class CoreServiceProvider extends ServiceProvider
     {
         // This is temporary, we will move this to support.
         Blade::directive('viteTags', function (string $expression) {
-            return "<?php echo app(AhsanDev\Support\ViteNew::class)($expression); ?>";
+            return "<?php echo app(Spanvel\Support\Vite::class)($expression); ?>";
         });
 
         Blade::directive('appData', function () {
-            return "<?php echo app(AhsanDev\Support\AppDataDirective::class)(); ?>";
+            return "<?php echo app(Spanvel\Support\AppDataDirective::class)(); ?>";
         });
 
         Model::unguard();
