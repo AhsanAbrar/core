@@ -54,7 +54,7 @@ class PackageContext
     {
         app()->register(SpanvelServiceProvider::class);
 
-        foreach (config('packages.providers') as $provider) {
+        foreach (config('packages.providers', []) as $provider) {
             app()->register($provider);
         }
     }
