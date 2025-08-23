@@ -1,6 +1,7 @@
 <?php
 
 use Spanvel\SpanvelServiceProvider;
+
 use function Pest\Laravel\artisan;
 
 beforeEach(function () {
