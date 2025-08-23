@@ -49,7 +49,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         return [
             'type' => fn () => $this->choice(
                 'Select the package type:',
-                ['basic', 'blade', 'vue', 'vue-thetheme'],
+                ['basic', 'blade', 'vue', 'vue-app'],
                 'basic'
             ),
         ];
@@ -348,8 +348,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $this->fail('The package name must be in kebab-case.');
         }
 
-        // if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'vue-thetheme'])) {
-        //     $this->fail('Invalid package type. Allowed types: basic, blade, vue, vue-thetheme');
+        // if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'vue-app'])) {
+        //     $this->fail('Invalid package type. Allowed types: basic, blade, vue, vue-app');
         // }
     }
 
