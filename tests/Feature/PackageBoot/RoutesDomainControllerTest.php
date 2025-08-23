@@ -1,8 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Tests\Fixtures\Site\Src\SiteServiceProviderWithDomainController;
-
 use function Pest\Laravel\get;
 
 beforeEach(function () {
@@ -10,34 +10,24 @@ beforeEach(function () {
 });
 
 describe('PackageBoot webRoutes domain and controller options', function () {
-    it('respects a custom domain', function () {
-        get('/');
+    it('uses the configured domain and controller for /', function () {
+        $request = Request::create('/', 'GET', [], [], [], ['HTTP_HOST' => 'web.test']);
+        $route = Route::getRoutes()->match($request);
 
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '/');
+        expect($route->uri())->toBe('/');
         expect($route->getDomain())->toBe('web.test');
-    });
-
-    it('respects a custom controller', function () {
-        get('/');
-
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === '/');
         expect($route->getAction('controller'))
             ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
     });
 });
 
 describe('PackageBoot apiRoutes domain and controller options', function () {
-    it('respects a custom domain', function () {
-        get('/api/ping');
+    it('uses the configured domain and controller for /api/ping', function () {
+        $request = Request::create('/api/ping', 'GET', [], [], [], ['HTTP_HOST' => 'api.test']);
+        $route = Route::getRoutes()->match($request);
 
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === 'api/ping');
+        expect($route->uri())->toBe('api/ping');
         expect($route->getDomain())->toBe('api.test');
-    });
-
-    it('respects a custom controller', function () {
-        get('/api/ping');
-
-        $route = collect(Route::getRoutes())->first(fn ($r) => $r->uri() === 'api/ping');
         expect($route->getAction('controller'))
             ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
     });
