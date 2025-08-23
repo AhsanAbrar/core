@@ -3,6 +3,7 @@
 namespace Spanvel;
 
 use Illuminate\Support\ServiceProvider;
+use Spanvel\Console\InstallCommand;
 
 class SpanvelServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,16 @@ class SpanvelServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Publish the config file
+        $this->publishes([
+            __DIR__.'/../config/packages.php' => config_path('packages.php'),
+        ], 'spanvel-config');
+
+        // Register the install command for CLI
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+            ]);
+        }
     }
 }
