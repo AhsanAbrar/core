@@ -23,6 +23,17 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // This is temporary, we will move this to support.
+        // Blade::directive('viteTags', function (string $expression) {
+        //     return "<?php echo app(AhsanDev\Support\ViteNew::class)($expression); ?>";
+        // });
+
+        // Blade::directive('appData', function () {
+        //     return "<?php echo app(AhsanDev\Support\AppDataDirective::class)(); ?>";
+        // });
+
+        // Model::unguard();
+
         if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
             PackageRegistrar::registerAllProviders();
         }
