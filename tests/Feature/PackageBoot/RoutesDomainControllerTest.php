@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Tests\Fixtures\Site\Http\Controllers\DemoController;
 use Tests\Fixtures\Site\Src\SiteServiceProviderWithDomainController;
 
 beforeEach(function () {
@@ -17,8 +18,12 @@ describe('PackageBoot webRoutes domain and controller options', function () {
         expect($route->uri())->toBe('/');
         expect($route->getDomain())->toBe('web.test');
         expect($route->methods())->toContain('GET');
-        expect($route->getControllerClass())
-            ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
+
+        $action = $route->getAction();
+
+        // Support both "controller" => "FQCN@method" and "uses" => [FQCN, 'method']
+        $controllerFqcn = $action['controller'] ?? (is_array($action['uses'] ?? null) ? $action['uses'][0] : null);
+        expect($controllerFqcn)->toBe(DemoController::class);
     });
 });
 
@@ -31,7 +36,9 @@ describe('PackageBoot apiRoutes domain and controller options', function () {
         expect($route->uri())->toBe('api/ping');
         expect($route->getDomain())->toBe('api.test');
         expect($route->methods())->toContain('GET');
-        expect($route->getControllerClass())
-            ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
+
+        $action = $route->getAction();
+        $controllerFqcn = $action['controller'] ?? (is_array($action['uses'] ?? null) ? $action['uses'][0] : null);
+        expect($controllerFqcn)->toBe(DemoController::class);
     });
 });
