@@ -16,6 +16,7 @@ describe('PackageBoot webRoutes domain and controller options', function () {
 
         expect($route->uri())->toBe('/');
         expect($route->getDomain())->toBe('web.test');
+        expect($route->methods())->toContain('GET');
         expect($route->getControllerClass())
             ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
     });
@@ -29,6 +30,7 @@ describe('PackageBoot apiRoutes domain and controller options', function () {
 
         expect($route->uri())->toBe('api/ping');
         expect($route->getDomain())->toBe('api.test');
+        expect($route->methods())->toContain('GET');
         expect($route->getControllerClass())
             ->toBe(\Tests\Fixtures\Site\Http\Controllers\DemoController::class);
     });
