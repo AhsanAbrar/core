@@ -314,7 +314,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
     protected function addPackageToConfigOld()
     {
-        $configPath = base_path('config/span.php');
+        $configPath = base_path('config/packages.php');
         $config = include($configPath);
 
         $config['providers'][$this->name()] = $this->rootNamespace() .'\\'. $this->pascalName().'ServiceProvider::class,';
@@ -326,7 +326,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
     protected function addPackageToConfig()
     {
-        $configPath = base_path('config/span.php');
+        $configPath = base_path('config/packages.php');
         $configContent = file_get_contents($configPath);
 
         // Add the provider entry before the closing bracket of the 'providers' array
