@@ -3,6 +3,8 @@
 namespace Spanvel;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Http\Middleware\RegisterPackage;
 use Spanvel\Package\PackageContext;
@@ -24,15 +26,15 @@ class CoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // This is temporary, we will move this to support.
-        // Blade::directive('viteTags', function (string $expression) {
-        //     return "<?php echo app(AhsanDev\Support\ViteNew::class)($expression); ?>";
-        // });
+        Blade::directive('viteTags', function (string $expression) {
+            return "<?php echo app(AhsanDev\Support\ViteNew::class)($expression); ?>";
+        });
 
-        // Blade::directive('appData', function () {
-        //     return "<?php echo app(AhsanDev\Support\AppDataDirective::class)(); ?>";
-        // });
+        Blade::directive('appData', function () {
+            return "<?php echo app(AhsanDev\Support\AppDataDirective::class)(); ?>";
+        });
 
-        // Model::unguard();
+        Model::unguard();
 
         if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
             PackageRegistrar::registerAllProviders();
