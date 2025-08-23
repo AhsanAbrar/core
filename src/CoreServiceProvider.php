@@ -6,6 +6,7 @@ use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Http\Middleware\RegisterPackage;
 use Spanvel\Package\PackageContext;
+use Spanvel\Package\PackageRegistrar;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,7 @@ class CoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
-            PackageContext::registerAllProviders();
+            PackageRegistrar::registerAllProviders();
         }
 
         $this->app->make(HttpKernel::class)
