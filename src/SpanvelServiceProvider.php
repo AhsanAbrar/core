@@ -28,6 +28,7 @@ class SpanvelServiceProvider extends ServiceProvider
         // Register the install command for CLI
         $this->commands([
             InstallCommand::class,
+            PackageCommand::class,
         ]);
     }
 }
