@@ -4,7 +4,7 @@ namespace [[rootNamespace]]\Support;
 
 use Illuminate\Support\Facades\Auth;
 use JsonSerializable;
-use Laranext\Span\Span;
+use Spanvel\Support\Facades\Package;
 
 class AppData implements JsonSerializable
 {
@@ -28,7 +28,7 @@ class AppData implements JsonSerializable
             'csrf_token' => csrf_token(),
             'debug' => config('app.debug'),
             'header_logo' => option('app_logo'),
-            'prefix' => Span::prefix(),
+            'prefix' => Package::key(),
             'is_super_admin' => Auth::user()->isSuperAdmin(),
             'permissions' => Auth::user()->allPermissions(),
             'translations' => json_decode(file_get_contents(base_path('packages/[[name]]/lang/'.option('app_locale', 'en').'.json')), true),

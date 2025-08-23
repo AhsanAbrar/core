@@ -1,5 +1,5 @@
 {
-    "name": "span/[[name]]",
+    "name": "spanvel/[[name]]",
     "require": {
         "php": "^8.2"
     },

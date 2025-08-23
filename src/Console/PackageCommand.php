@@ -26,7 +26,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'spanvel:package {package : The span package name} {type : The span package type}
+    protected $signature = 'spanvel:package {package : The spanvel package name} {type : The spanvel package type}
                             {--routes : Add web routes to the basic package}
                             {--views : Add web routes and views to the basic package}
                             {--namespace= : The root namespace of the package if it is different from package name}
@@ -39,7 +39,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $description = 'Create a new span package';
+    protected $description = 'Create a new spanvel package';
 
     /**
      * Prompt for missing input arguments using the returned questions.
@@ -66,7 +66,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $this->fail('Package already exists!');
         }
 
-        $this->info('Creating a new span package...');
+        $this->info('Creating a new spanvel package...');
 
         $this->filesystem->copyDirectory(
             __DIR__ . '/../../packages/' . $this->argument('type'),
@@ -78,7 +78,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $this->modificationsWithOptions();
 
         if ($this->option('no-composer')) {
-            $this->info('Span package generated successfully.');
+            $this->info('Spanvel package generated successfully.');
 
             return;
         }
@@ -102,7 +102,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         //     $this->composerDump();
         // }
 
-        $this->info('Span package generated successfully.');
+        $this->info('Spanvel package generated successfully.');
     }
 
     /**
@@ -188,8 +188,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
         // Package Name - name (my-admin-blog)
         // Package Name - title (My Admin Blog)
         // Package Name - pascalName (MyAdminBlog)
-        // Root Namespace - rootNamespace (Laranext\Span\Admin\Blog)
-        // Root Namespace - rootNamespaceComposer (Laranext\\Span\\Admin\\Blog)
+        // Root Namespace - rootNamespace (Laranext\Spanvel\Admin\Blog)
+        // Root Namespace - rootNamespaceComposer (Laranext\\Spanvel\\Admin\\Blog)
 
         // composer.json replacements...
         $this->replace('{{ name }}', $this->argument('package'), $this->packagePath('composer.json'));
@@ -252,7 +252,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
     {
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
 
-        $composer['require-dev']['span/'.$this->name()] = 'dev-main';
+        $composer['require-dev']['spanvel/'.$this->name()] = 'dev-main';
 
         file_put_contents(
             base_path('composer.json'),
