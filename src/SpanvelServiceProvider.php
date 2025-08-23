@@ -4,6 +4,7 @@ namespace Spanvel;
 
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Console\InstallCommand;
+use Spanvel\Console\PackageCommand;
 
 class SpanvelServiceProvider extends ServiceProvider
 {
