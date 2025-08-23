@@ -3,7 +3,6 @@
 namespace Spanvel\Console;
 
 use Illuminate\Console\Command;
-use Spanvel\CoreServiceProvider;
 
 class InstallCommand extends Command
 {
@@ -12,7 +11,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'spanvel:install {--force : Overwrite existing files}';
+    protected $signature = 'spanvel:install';
 
     /**
      * The console command description.
@@ -26,16 +25,13 @@ class InstallCommand extends Command
      */
     public function handle(): int
     {
-        $arguments = [
-            '--provider' => CoreServiceProvider::class,
-            '--tag'      => 'spanvel-config',
-        ];
+        $this->comment('Publishing Spanvel Config...');
 
-        if ($this->option('force')) {
-            $arguments['--force'] = true;
-        }
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'spanvel-config',
+        ]);
 
-        $this->call('vendor:publish', $arguments);
+        $this->info('Spanvel scaffolding installed successfully.');
 
         return self::SUCCESS;
     }
