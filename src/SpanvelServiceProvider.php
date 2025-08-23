@@ -26,10 +26,8 @@ class SpanvelServiceProvider extends ServiceProvider
         ], 'spanvel-config');
 
         // Register the install command for CLI
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallCommand::class,
-            ]);
-        }
+        $this->commands([
+            InstallCommand::class,
+        ]);
     }
 }
