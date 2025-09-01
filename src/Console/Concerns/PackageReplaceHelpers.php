@@ -63,7 +63,7 @@ trait PackageReplaceHelpers
      */
     protected function kebabPlural()
     {
-        return Str::kebab(Str::plural( $this->argument('package') ));
+        return Str::kebab(Str::plural($this->argument('package')));
     }
 
     /**
@@ -73,7 +73,7 @@ trait PackageReplaceHelpers
      */
     protected function plural()
     {
-        return Str::plural( $this->argument('package') );
+        return Str::plural($this->argument('package'));
     }
 
     /**
@@ -93,6 +93,6 @@ trait PackageReplaceHelpers
      */
     protected function pascalName()
     {
-        return Str::studly( $this->argument('package') );
+        return Str::studly($this->argument('package'));
     }
 }

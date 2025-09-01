@@ -2,9 +2,9 @@
 
 namespace Spanvel\Support;
 
+use Exception;
 use Illuminate\Foundation\ViteManifestNotFoundException;
 use Illuminate\Support\HtmlString;
-use Exception;
 
 class Vite
 {
@@ -42,6 +42,7 @@ class Vite
         // Check if HMR server is running and return the appropriate response.
         if ($this->isRunningHot()) {
             $this->setIpAndPort($param1, $param2);
+
             return $this->development();
         }
 
@@ -91,8 +92,8 @@ class Vite
         $manifestPath = public_path("vendor/{$this->packageName}/.vite/manifest.json");
 
         // Load and decode the manifest file if not already cached.
-        if (!isset($manifests[$manifestPath])) {
-            if (!is_file($manifestPath)) {
+        if (! isset($manifests[$manifestPath])) {
+            if (! is_file($manifestPath)) {
                 throw new ViteManifestNotFoundException("Vite manifest not found at: $manifestPath");
             }
 
@@ -104,11 +105,11 @@ class Vite
         $cssFiles = $manifest["resources/js/{$this->file}"]['css'] ?? [];
 
         // Generate the CSS link tags.
-        $cssLinks = array_map(fn($cssFile) => "<link rel=\"stylesheet\" type=\"text/css\" href=\"/vendor/{$this->packageName}/{$cssFile}\" />", $cssFiles);
+        $cssLinks = array_map(fn ($cssFile) => "<link rel=\"stylesheet\" type=\"text/css\" href=\"/vendor/{$this->packageName}/{$cssFile}\" />", $cssFiles);
 
         // Return the complete HTML string.
         return new HtmlString(
-            implode('', $cssLinks) .
+            implode('', $cssLinks).
             sprintf('<script type="module" crossorigin src="/vendor/%s/%s"></script>', $this->packageName, $js)
         );
     }
@@ -120,7 +121,7 @@ class Vite
     {
         // Return the development script tags.
         return new HtmlString(
-            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->ip, $this->port) .
+            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->ip, $this->port).
             sprintf('<script type="module" src="//%s:%s/resources/js/%s"></script>', $this->ip, $this->port, $this->file)
         );
     }
@@ -133,7 +134,7 @@ class Vite
         // Check if user-provided IP should override the hot file value.
         $userProvidedIp = $this->isIpAddress($param1) || $this->isIpAddress($param2);
 
-        if (!$userProvidedIp) {
+        if (! $userProvidedIp) {
             $hotFilePath = base_path("packages/{$this->packageName}/hot");
             $fileContents = file_get_contents($hotFilePath);
 
@@ -154,7 +155,7 @@ class Vite
             }
         }
 
-        throw new Exception(ucfirst($key) . ' not found in the hot file.');
+        throw new Exception(ucfirst($key).' not found in the hot file.');
     }
 
     /**

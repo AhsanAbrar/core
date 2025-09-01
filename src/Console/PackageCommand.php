@@ -2,11 +2,11 @@
 
 namespace Spanvel\Console;
 
-use Spanvel\Console\Concerns\CommandHelpers;
-use Spanvel\Console\Concerns\PackageReplaceHelpers;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
+use Spanvel\Console\Concerns\CommandHelpers;
+use Spanvel\Console\Concerns\PackageReplaceHelpers;
 use Symfony\Component\Process\Process;
 
 class PackageCommand extends Command implements PromptsForMissingInput
@@ -62,14 +62,14 @@ class PackageCommand extends Command implements PromptsForMissingInput
     {
         $this->validateArguments();
 
-        if ( is_dir($this->packagePath()) ) {
+        if (is_dir($this->packagePath())) {
             $this->fail('Package already exists!');
         }
 
         $this->info('Creating a new spanvel package...');
 
         $this->filesystem->copyDirectory(
-            __DIR__ . '/../../packages/' . $this->argument('type'),
+            __DIR__.'/../../packages/'.$this->argument('type'),
             $this->packagePath()
         );
 
@@ -161,7 +161,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
     {
         if ($this->option('routes') && $this->argument('type') === 'basic') {
             $this->filesystem->copyDirectory(
-                __DIR__ . '/../../packages-options/basic/routes',
+                __DIR__.'/../../packages-options/basic/routes',
                 $this->packagePath()
             );
 
@@ -171,7 +171,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
         if ($this->option('views') && $this->argument('type') === 'basic') {
             $this->filesystem->copyDirectory(
-                __DIR__ . '/../../packages-options/basic/views',
+                __DIR__.'/../../packages-options/basic/views',
                 $this->packagePath()
             );
 
@@ -200,7 +200,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $this->replace('{{ pascalName }}', $this->pascalName(), $this->packagePath('src/ServiceProvider.stub'));
         $this->filesystem->move(
             $this->packagePath('src/ServiceProvider.stub'),
-            $this->packagePath( 'src/' . $this->pascalName() . 'ServiceProvider.php' )
+            $this->packagePath('src/'.$this->pascalName().'ServiceProvider.php')
         );
 
         // rename .gitignore.stub to .gitignore
@@ -216,7 +216,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function addWebRoutes(): void
     {
         $this->filesystem->copy(
-            __DIR__ . '/../../packages/package/src/WebRoutesServiceProvider.stub',
+            __DIR__.'/../../packages/package/src/WebRoutesServiceProvider.stub',
             $this->packagePath('src/ServiceProvider.stub')
         );
 
@@ -226,7 +226,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $this->replace('{{ name }}', $this->argument('package'), $this->packagePath('src/ServiceProvider.stub'));
         $this->filesystem->move(
             $this->packagePath('src/ServiceProvider.stub'),
-            $this->packagePath( 'src/' . $this->pascalName() . 'ServiceProvider.php' )
+            $this->packagePath('src/'.$this->pascalName().'ServiceProvider.php')
         );
     }
 
@@ -266,10 +266,10 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
         $repository = [
             'type' => 'path',
-            'url' => "./packages/{$this->name()}"
+            'url' => "./packages/{$this->name()}",
         ];
 
-        if (!isset($composer['repositories'])) {
+        if (! isset($composer['repositories'])) {
             $composer['repositories'] = [];
         }
 
@@ -307,7 +307,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         // $process->setTty(Process::isTtySupported());
 
         $process->run(function ($type, $buffer) {
-            $type;
+
             echo $buffer;
         });
     }
@@ -315,11 +315,11 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function addPackageToConfigOld()
     {
         $configPath = base_path('config/packages.php');
-        $config = include($configPath);
+        $config = include $configPath;
 
-        $config['providers'][$this->name()] = $this->rootNamespace() .'\\'. $this->pascalName().'ServiceProvider::class,';
+        $config['providers'][$this->name()] = $this->rootNamespace().'\\'.$this->pascalName().'ServiceProvider::class,';
 
-        $configContent = "<?php\n\nreturn " . var_export($config, true) . ";\n";
+        $configContent = "<?php\n\nreturn ".var_export($config, true).";\n";
 
         file_put_contents($configPath, $configContent);
     }
@@ -332,7 +332,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         // Add the provider entry before the closing bracket of the 'providers' array
         $newEntry = "    '{$this->name()}' => {$this->rootNamespace()}\\{$this->pascalName()}ServiceProvider::class,\n";
         $pattern = '/(\'providers\' => \[)(.*?)(\],)/s';
-        $replacement = '$1$2' . $newEntry . '    $3';
+        $replacement = '$1$2'.$newEntry.'    $3';
         $configContent = preg_replace($pattern, $replacement, $configContent, 1);
 
         // Write the updated content back to the file

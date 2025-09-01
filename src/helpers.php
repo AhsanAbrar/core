@@ -8,8 +8,6 @@ if (! function_exists('option')) {
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
-     * @param  array|string|null  $key
-     * @param  array|string|null  $default
      * @return mixed|\AhsanDev\Support\Option
      */
     function option(string|array|null $key = null, string|array|null $default = null)

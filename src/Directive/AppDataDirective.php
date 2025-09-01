@@ -14,7 +14,7 @@ class AppDataDirective
     {
         $className = $this->getAppDataClassName();
 
-        if (!class_exists($className)) {
+        if (! class_exists($className)) {
             throw new \RuntimeException("Class {$className} does not exist.");
         }
 

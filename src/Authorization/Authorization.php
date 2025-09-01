@@ -2,8 +2,8 @@
 
 namespace Spanvel\Authorization;
 
-use App\Models\Permission;
 use AhsanDev\Support\Authorization\Exceptions\PermissionDoesNotExist;
+use App\Models\Permission;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -37,7 +37,6 @@ class Authorization
     /**
      * Authorization constructor.
      *
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
      * @param  \Illuminate\Cache\CacheManager  $cacheManager
      */
     public function __construct(Gate $gate, CacheManager $cache)
@@ -75,7 +74,7 @@ class Authorization
         return $this->cache->rememberForever("user:{$this->user->id}:permission:{$this->ability}", function () {
             if ($this->user->hasPermissions()) {
                 return $this->user->getPermissions()
-                            ->contains('name', $this->ability);
+                    ->contains('name', $this->ability);
             }
 
             return $this->checkPermissionAgainstRoles();
@@ -90,9 +89,9 @@ class Authorization
     protected function checkPermissionAgainstRoles()
     {
         return (bool) $this->getPermission()
-                        ->roles
-                        ->intersect($this->user->getRoles())
-                        ->count();
+            ->roles
+            ->intersect($this->user->getRoles())
+            ->count();
     }
 
     /**
@@ -106,8 +105,8 @@ class Authorization
     {
         $permission = $this->cache->rememberForever("permission:{$this->ability}", function () {
             return Permission::whereName($this->ability)
-                            ->with('roles')
-                            ->first();
+                ->with('roles')
+                ->first();
         });
 
         if (! $permission) {

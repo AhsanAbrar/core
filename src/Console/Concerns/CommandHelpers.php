@@ -10,7 +10,7 @@ trait CommandHelpers
     protected function checkPackageExists(): void
     {
         if (! $this->filesystem->exists($this->packagePath())) {
-            $this->fail("'" . $this->argument('package') . "'" . ' package does not exist.');
+            $this->fail("'".$this->argument('package')."'".' package does not exist.');
         }
     }
 
@@ -19,7 +19,7 @@ trait CommandHelpers
      */
     protected function ensureDirectoryExists(string $directory): void
     {
-        if (!$this->filesystem->exists($directory)) {
+        if (! $this->filesystem->exists($directory)) {
             $this->filesystem->makeDirectory($directory, 0755, true);
         }
     }
@@ -42,7 +42,7 @@ trait CommandHelpers
     protected function copyBaseFiles(array $files): void
     {
         foreach ($files as $file) {
-            $source = __DIR__ . '/../../../base/' . $file;
+            $source = __DIR__.'/../../../base/'.$file;
             $destination = base_path($file);
 
             $this->filesystem->copy($source, $destination);
@@ -89,7 +89,7 @@ trait CommandHelpers
      */
     protected function packagePath($path = null): string
     {
-        return base_path('packages/' . $this->argument('package') . '/' . $path);
+        return base_path('packages/'.$this->argument('package').'/'.$path);
     }
 
     /**
