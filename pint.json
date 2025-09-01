@@ -1,0 +1,6 @@
+{
+    "exclude": [
+        "packages",
+        "packages-options"
+    ]
+}
