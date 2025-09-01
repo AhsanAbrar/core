@@ -72,6 +72,24 @@ class PackageBoot
     }
 
     /**
+     * Exclude the given route segments globally.
+     *
+     * The provided segments will be merged with any existing values defined in
+     * the `packages.excluded_segments` configuration key. Duplicates are
+     * automatically removed and the array is re-indexed.
+     */
+    public function excludeSegments(array $segments): static
+    {
+        $existing = app('config')->get('packages.excluded_segments', []);
+
+        $merged = array_values(array_unique(array_merge($existing, $segments)));
+
+        app('config')->set('packages.excluded_segments', $merged);
+
+        return $this;
+    }
+
+    /**
      * Register routes from an arbitrary file.
      */
     public function routes(
