@@ -36,6 +36,10 @@ class CoreServiceProvider extends ServiceProvider
 
         Model::unguard();
 
+        if (! $this->app->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__.'/../config/packages.php', 'packages');
+        }
+
         if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
             PackageRegistrar::registerAllProviders();
         }
