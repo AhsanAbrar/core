@@ -78,11 +78,11 @@ class Option implements OptionContract
     }
 
     /**
-     * Parse the option value.
+     * Parse the option value back into its correct type.
      */
     protected function parseValue(?string $value): mixed
     {
-        if (is_null($value)) {
+        if ($value === null) {
             return null;
         }
 
