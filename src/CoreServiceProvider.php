@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider;
 use Spanvel\Http\Middleware\RegisterPackage;
 use Spanvel\Package\PackageContext;
 use Spanvel\Package\PackageRegistrar;
+use Spanvel\Support\Contracts\Option as OptionContract;
+use Spanvel\Support\Option;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,10 @@ class CoreServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->scoped('spanvel.package', fn () => new PackageContext);
+
+        // Option singleton
+        $this->app->singleton(OptionContract::class, fn () => new Option);
+        $this->app->alias(OptionContract::class, 'option');
     }
 
     /**
