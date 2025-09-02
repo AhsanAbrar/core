@@ -4,23 +4,29 @@ use AhsanDev\Support\Vite;
 
 if (! function_exists('option')) {
     /**
-     * Get / set the specified option value.
+     * Get or set the specified option value(s).
      *
-     * If an array is passed as the key, we will assume you want to set an array of values.
+     * Usage:
+     * option('site_name');                   // get
+     * option('site_name', 'Default');        // get with default
+     * option(['site_name' => 'MyApp']);      // set multiple
+     * option('site_name', 'MyApp', true);    // set single (optional improvement)
      *
-     * @return mixed|\Spanvel\Support\Option
+     * @return mixed|\Spanvel\Support\Contracts\Option
      */
-    function option(string|array|null $key = null, string|array|null $default = null)
+    function option(string|array|null $key = null, mixed $default = null): mixed
     {
+        $service = app('option');
+
         if (is_null($key)) {
-            return app('option');
+            return $service;
         }
 
         if (is_array($key)) {
-            return app('option')->put($key);
+            return $service->put($key);
         }
 
-        return app('option')->get($key, $default);
+        return $service->get($key, $default);
     }
 }
 
