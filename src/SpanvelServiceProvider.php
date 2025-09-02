@@ -5,6 +5,8 @@ namespace Spanvel;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Console\InstallCommand;
 use Spanvel\Console\PackageCommand;
+use Spanvel\Support\Contracts\Option as OptionContract;
+use Spanvel\Support\Option;
 
 class SpanvelServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,8 @@ class SpanvelServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(OptionContract::class, fn () => new Option);
+        $this->app->alias(OptionContract::class, 'option');
     }
 
     /**
