@@ -92,7 +92,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $this->addPackageToAutoload();
         }
 
-        // $this->composerUpdate();
+        $this->composerUpdate();
         $this->addPackageToConfig();
 
         // Register the package...
