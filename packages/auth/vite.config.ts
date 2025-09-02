@@ -1,13 +1,13 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
-import ahsandevs from 'ahsandevs-vite-plugin'
+import spanvel from 'spanvel-vite-plugin'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [
-    ahsandevs(),
+    spanvel(),
   ],
   server: {
     cors: true
