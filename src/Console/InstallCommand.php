@@ -31,6 +31,12 @@ class InstallCommand extends Command
             '--tag' => 'spanvel-config',
         ]);
 
+        $this->comment('Publishing Spanvel Migrations...');
+
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'spanvel-migrations',
+        ]);
+
         $this->info('Spanvel scaffolding installed successfully.');
 
         return self::SUCCESS;

@@ -26,6 +26,11 @@ class SpanvelServiceProvider extends ServiceProvider
             __DIR__.'/../config/packages.php' => config_path('packages.php'),
         ], 'spanvel-config');
 
+        // Publish the migration files
+        $this->publishes([
+            __DIR__.'/../database/migrations' => database_path('migrations'),
+        ], 'spanvel-migrations');
+
         // Register the install command for CLI
         $this->commands([
             InstallCommand::class,
