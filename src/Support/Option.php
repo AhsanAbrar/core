@@ -18,9 +18,7 @@ class Option implements OptionContract
         $value = Cache::rememberForever($this->getCacheKey($key), function () use ($key) {
             $option = DB::table('options')->where('key', $key)->first();
 
-            if ($option) {
-                return $this->parseValue($option->value);
-            }
+            return $option ? $this->parseValue($option->value) : null;
         });
 
         return $value ?? $default;
