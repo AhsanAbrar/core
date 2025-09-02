@@ -29,7 +29,7 @@ class Option implements OptionContract
     /**
      * Create or update an option's value by its key.
      */
-    public function put(string|array $key, string|array|null $value = null): bool
+    public function put(string|array $key, mixed $value = null): bool
     {
         if (is_array($key)) {
             if (! Arr::isAssoc($key)) {
