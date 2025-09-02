@@ -51,11 +51,15 @@ class Option implements OptionContract
     /**
      * Persist an option in the database.
      */
-    protected function persist(string $key, null|string|array $value): bool
+    protected function persist(string $key, mixed $value): bool
     {
+        if (is_array($value) || is_object($value)) {
+            $value = json_encode($value);
+        }
+
         $isPersisted = DB::table('options')->updateOrInsert(
-            compact('key'),
-            ['value' => is_array($value) ? json_encode($value) : $value]
+            ['key' => $key],
+            ['value' => $value]
         );
 
         if ($isPersisted) {
