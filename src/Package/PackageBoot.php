@@ -156,6 +156,28 @@ class PackageBoot
     }
 
     /**
+     * Merge default middleware with user-provided ones.
+     *
+     * If $custom is null → return only defaults.
+     * If $custom is []   → treat as override (no defaults).
+     * Otherwise          → merge + dedupe.
+     */
+    protected function mergeMiddleware(array $defaults, string|array|null $custom): array
+    {
+        if ($custom === null) {
+            return $defaults;
+        }
+
+        if ($custom === []) {
+            return [];
+        }
+
+        $merged = array_merge($defaults, (array) $custom);
+
+        return array_values(array_unique($merged, SORT_REGULAR));
+    }
+
+    /**
      * Build the attributes array for Route::group().
      */
     protected function buildGroup(
