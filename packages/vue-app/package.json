@@ -14,7 +14,7 @@
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
-    "format": "prettier --write src/"
+    "format": "prettier --write resources/js/**/*.{ts,tsx,js,jsx,vue}"
   },
   "dependencies": {
     "ahsandevs": "^0.1.19",
