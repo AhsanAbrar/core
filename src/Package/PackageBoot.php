@@ -76,9 +76,18 @@ class PackageBoot
         ?string $domain = null,
         ?string $controller = null
     ): static {
+        $defaultMiddlewares = ['web'];
+
+        if ($middleware !== null) {
+            $middleware = array_merge($defaultMiddlewares, (array) $middleware);
+            $middleware = array_values(array_unique($middleware, SORT_REGULAR));
+        } else {
+            $middleware = $defaultMiddlewares;
+        }
+
         return $this->routes(
             $filename,
-            $middleware ?? 'web',
+            $middleware,
             $prefix ?? Package::key(),
             $domain,
             $controller,
@@ -95,9 +104,18 @@ class PackageBoot
         ?string $domain = null,
         ?string $controller = null
     ): static {
+        $defaultMiddlewares = ['api'];
+
+        if ($middleware !== null) {
+            $middleware = array_merge($defaultMiddlewares, (array) $middleware);
+            $middleware = array_values(array_unique($middleware, SORT_REGULAR));
+        } else {
+            $middleware = $defaultMiddlewares;
+        }
+
         return $this->routes(
             $filename,
-            $middleware ?? 'api',
+            $middleware,
             $prefix ?? Package::key().'/api',
             $domain,
             $controller,
