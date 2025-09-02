@@ -36,16 +36,48 @@ class PackageBoot
     }
 
     /**
+     * Register sanctum api routes for the package.
+     */
+    public function sanctumRoutes(
+        string $filename = 'api.php',
+        bool $stateful = true,
+        string|array|null $middleware = null,
+        ?string $prefix = null,
+        ?string $domain = null,
+        ?string $controller = null
+    ): static {
+        $defaultMiddlewares = $stateful
+            ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
+            : ['auth:sanctum', 'api'];
+
+        if ($middleware) {
+            $middleware = array_merge($defaultMiddlewares, (array) $middleware);
+            $middleware = array_values(array_unique($middleware, SORT_REGULAR));
+        } else {
+            $middleware = $defaultMiddlewares;
+        }
+
+        return $this->routes(
+            $filename,
+            $middleware,
+            $prefix ?? Package::key().'/api',
+            $domain,
+            $controller,
+        );
+    }
+
+    /**
      * Register web routes for the package.
      */
     public function webRoutes(
+        string $filename = 'web.php',
         string|array|null $middleware = null,
         ?string $prefix = null,
         ?string $domain = null,
         ?string $controller = null
     ): static {
         return $this->routes(
-            'web.php',
+            $filename,
             $middleware ?? 'web',
             $prefix ?? Package::key(),
             $domain,
@@ -57,13 +89,14 @@ class PackageBoot
      * Register API routes for the package.
      */
     public function apiRoutes(
+        string $filename = 'api.php',
         string|array|null $middleware = null,
         ?string $prefix = null,
         ?string $domain = null,
         ?string $controller = null
     ): static {
         return $this->routes(
-            'api.php',
+            $filename,
             $middleware ?? 'api',
             $prefix ?? Package::key().'/api',
             $domain,
