@@ -16,7 +16,7 @@ class Option implements OptionContract
     public function get(string $key, mixed $default = null): mixed
     {
         $value = Cache::rememberForever($this->getCacheKey($key), function () use ($key) {
-            $option = DB::table('options')->whereKey($key)->first();
+            $option = DB::table('options')->where('key', $key)->first();
 
             if ($option) {
                 return $this->parseValue($option->value);
@@ -76,11 +76,15 @@ class Option implements OptionContract
     /**
      * Parse the option value.
      */
-    protected function parseValue(string|null $value): mixed
+    protected function parseValue(?string $value): mixed
     {
-        return is_array($decoded = json_decode($value, true))
-            ? $decoded
-            : $value;
+        if (is_null($value)) {
+            return null;
+        }
+
+        $decoded = json_decode($value, true);
+
+        return json_last_error() === JSON_ERROR_NONE ? $decoded : $value;
     }
 
     /**
