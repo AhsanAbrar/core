@@ -2,11 +2,11 @@
 
 namespace Spanvel\Support;
 
-use Spanvel\Support\Contracts\Option as OptionContract;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
+use Spanvel\Support\Contracts\Option as OptionContract;
 
 class Option implements OptionContract
 {
@@ -32,7 +32,7 @@ class Option implements OptionContract
     public function put(string|array $key, string|array|null $value = null): bool
     {
         if (is_array($key)) {
-            if (!Arr::isAssoc($key)) {
+            if (! Arr::isAssoc($key)) {
                 throw new InvalidArgumentException(
                     'When setting values in the option, you must pass an array of key / value pairs.'
                 );
@@ -70,7 +70,7 @@ class Option implements OptionContract
      */
     protected function getCacheKey(string $key): string
     {
-        return $this->getPrefix() . $key;
+        return $this->getPrefix().$key;
     }
 
     /**
@@ -92,7 +92,7 @@ class Option implements OptionContract
      */
     protected function getPrefix(): string
     {
-        return request()->getHttpHost() . '.option.';
+        return request()->getHttpHost().'.option.';
     }
 
     /**
