@@ -4,6 +4,7 @@ namespace Spanvel\Directive;
 
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Spanvel\Support\Facades\Package;
 
 class AppDataDirective
 {
