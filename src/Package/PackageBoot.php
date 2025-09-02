@@ -46,20 +46,13 @@ class PackageBoot
         ?string $domain = null,
         ?string $controller = null
     ): static {
-        $defaultMiddlewares = $stateful
+        $defaults = $stateful
             ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
             : ['auth:sanctum', 'api'];
 
-        if ($middleware) {
-            $middleware = array_merge($defaultMiddlewares, (array) $middleware);
-            $middleware = array_values(array_unique($middleware, SORT_REGULAR));
-        } else {
-            $middleware = $defaultMiddlewares;
-        }
-
         return $this->routes(
             $filename,
-            $middleware,
+            $this->mergeMiddleware($defaults, $middleware),
             $prefix ?? Package::key().'/api',
             $domain,
             $controller,
