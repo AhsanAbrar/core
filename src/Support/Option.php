@@ -92,7 +92,9 @@ class Option implements OptionContract
      */
     protected function getPrefix(): string
     {
-        return request()->getHttpHost().'.option.';
+        return app()->runningInConsole()
+            ? 'console.option.'
+            : request()->getHttpHost().'.option.';
     }
 
     /**
