@@ -169,6 +169,8 @@ class Vite
 
         // Extract the package name from the view path.
         foreach ($viewPaths as $path) {
+            $path = str_replace('\\', '/', $path);
+
             if (preg_match('/packages\/([^\/]*)\/resources\/views/', $path, $matches)) {
                 return $matches[1];
             }

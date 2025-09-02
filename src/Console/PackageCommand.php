@@ -49,7 +49,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         return [
             'type' => fn () => $this->choice(
                 'Select the package type:',
-                ['basic', 'blade', 'vue', 'vue-app'],
+                ['basic', 'blade', 'vue', 'vue-app', 'auth'],
                 'basic'
             ),
         ];
