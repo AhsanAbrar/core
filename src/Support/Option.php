@@ -41,9 +41,9 @@ class Option implements OptionContract
             }
 
             return true;
-        } else {
-            return $this->persist($key, $value);
         }
+
+        return $this->persist($key, $value);
     }
 
     /**
