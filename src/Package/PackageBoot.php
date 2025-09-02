@@ -36,30 +36,6 @@ class PackageBoot
     }
 
     /**
-     * Register sanctum api routes for the package.
-     */
-    public function sanctumRoutes(
-        string $filename = 'api.php',
-        bool $stateful = true,
-        string|array|null $middleware = null,
-        ?string $prefix = null,
-        ?string $domain = null,
-        ?string $controller = null
-    ): static {
-        $defaults = $stateful
-            ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
-            : ['auth:sanctum', 'api'];
-
-        return $this->routes(
-            $filename,
-            $this->mergeMiddleware($defaults, $middleware),
-            $prefix ?? Package::key().'/api',
-            $domain,
-            $controller,
-        );
-    }
-
-    /**
      * Register web routes for the package.
      */
     public function webRoutes(
@@ -98,21 +74,27 @@ class PackageBoot
     }
 
     /**
-     * Exclude the given route segments globally.
-     *
-     * The provided segments will be merged with any existing values defined in
-     * the `packages.excluded_segments` configuration key. Duplicates are
-     * automatically removed and the array is re-indexed.
+     * Register sanctum api routes for the package.
      */
-    public function excludeSegments(array $segments): static
-    {
-        $existing = app('config')->get('packages.excluded_segments', []);
+    public function sanctumRoutes(
+        string $filename = 'api.php',
+        bool $stateful = true,
+        string|array|null $middleware = null,
+        ?string $prefix = null,
+        ?string $domain = null,
+        ?string $controller = null
+    ): static {
+        $defaults = $stateful
+            ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
+            : ['auth:sanctum', 'api'];
 
-        $merged = array_values(array_unique(array_merge($existing, $segments)));
-
-        app('config')->set('packages.excluded_segments', $merged);
-
-        return $this;
+        return $this->routes(
+            $filename,
+            $this->mergeMiddleware($defaults, $middleware),
+            $prefix ?? Package::key().'/api',
+            $domain,
+            $controller,
+        );
     }
 
     /**
@@ -128,6 +110,24 @@ class PackageBoot
         $group = $this->buildGroup($middleware, $prefix, $domain, $controller);
 
         return $this->loadRoutes($filename, $group);
+    }
+
+    /**
+     * Exclude the given route segments globally.
+     *
+     * The provided segments will be merged with any existing values defined in
+     * the `packages.excluded_segments` configuration key. Duplicates are
+     * automatically removed and the array is re-indexed.
+     */
+    public function excludeSegments(array $segments): static
+    {
+        $existing = app('config')->get('packages.excluded_segments', []);
+
+        $merged = array_values(array_unique(array_merge($existing, $segments)));
+
+        app('config')->set('packages.excluded_segments', $merged);
+
+        return $this;
     }
 
     /**
