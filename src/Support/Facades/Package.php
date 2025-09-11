@@ -5,9 +5,10 @@ namespace Spanvel\Support\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Spanvel\Package\Bootstrapper boot(string $packagePath, array $options = [])
+ * @method static \Spanvel\Package\Bootstrapper boot(string $basePath)
  *
  * @see \Spanvel\Package\Factory
+ * @see \Spanvel\Package\Bootstrapper
  */
 class Package extends Facade
 {
