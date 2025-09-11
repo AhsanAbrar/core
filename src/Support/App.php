@@ -30,7 +30,7 @@ class App
      */
     public function views(string $namespace, string $relative = 'resources/views'): static
     {
-        $path = $this->basePath . DIRECTORY_SEPARATOR . ltrim($relative, '/\\');
+        $path = $this->basePath.DIRECTORY_SEPARATOR.ltrim($relative, '/\\');
 
         // app()->callAfterResolving('view', function ($view) use ($path, $namespace) {
         //     if (isset($this->app->config['view']['paths']) &&

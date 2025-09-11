@@ -5,19 +5,12 @@ namespace Spanvel\Support\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Spanvel\Package\PackageBoot boot(string $packagePath)
- * @method static string key(string|null $key = null)
- * @method static void setKey(string $key)
- * @method static void reset()
+ * @method static \Spanvel\Package\Bootstrapper boot(string $packagePath, array $options = [])
  *
- * @see \Spanvel\Package\PackageContext
- * @see \Spanvel\Package\PackageBoot
+ * @see \Spanvel\Package\Factory
  */
 class Package extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     */
     protected static function getFacadeAccessor(): string
     {
         return 'spanvel.package';
