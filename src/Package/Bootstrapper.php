@@ -123,7 +123,7 @@ class Bootstrapper
         ?string $name = null,
         ?string $domain = null
     ): static {
-        $group = $this->buildGroup($middleware, $prefix, $domain, $name);
+        $group = $this->buildGroup($middleware, $prefix, $name, $domain);
 
         return $this->loadRoutes($filename, $group);
     }
@@ -156,14 +156,14 @@ class Bootstrapper
     protected function buildGroup(
         string|array|null $middleware,
         ?string $prefix,
-        ?string $domain,
-        ?string $name
+        ?string $name,
+        ?string $domain
     ): array {
         $group = [
             'middleware' => $middleware,
             'prefix' => $this->composePrefix($prefix),
-            'domain' => $domain,
             'as' => $this->composeName($name),
+            'domain' => $domain,
         ];
 
         return array_filter($group, static fn ($value) => $value !== null);
