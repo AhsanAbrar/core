@@ -171,6 +171,9 @@ class Bootstrapper
         return $this->basePath.'/routes/'.ltrim($filename, '/\\');
     }
 
+    /**
+     * Determine if the application routes are cached.
+     */
     protected function routesAreCached(): bool
     {
         $app = app();
