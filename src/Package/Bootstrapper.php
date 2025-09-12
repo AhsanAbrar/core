@@ -161,12 +161,42 @@ class Bootstrapper
     ): array {
         $group = [
             'middleware' => $middleware,
-            'prefix' => $prefix,
+            'prefix' => $this->composePrefix($prefix),
             'domain' => $domain,
-            'as' => $name,
+            'as' => $this->composeName($name),
         ];
 
         return array_filter($group, static fn ($value) => $value !== null);
+    }
+
+    protected function composePrefix(?string $prefix): ?string
+    {
+        $parts = [];
+
+        if ($this->key) {
+            $parts[] = trim($this->key, '/');
+        }
+
+        if ($prefix) {
+            $parts[] = trim($prefix, '/');
+        }
+
+        return $parts ? implode('/', $parts) : null;
+    }
+
+    protected function composeName(?string $name): ?string
+    {
+        if (! $this->key) {
+            return $name;
+        }
+
+        if (! $name) {
+            return $this->key.'.';
+        }
+
+        return str_starts_with($name, $this->key.'.')
+            ? $name
+            : $this->key.'.'.$name;
     }
 
     /**
