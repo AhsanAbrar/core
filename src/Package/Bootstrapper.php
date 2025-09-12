@@ -74,7 +74,8 @@ class Bootstrapper
         bool $stateful = true,
         string|array|null $middleware = null,
         ?string $prefix = 'api',
-        ?string $domain = null
+        ?string $domain = null,
+        ?string $name = null
     ): static {
         $defaults = $stateful
             ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
@@ -85,6 +86,7 @@ class Bootstrapper
             $this->mergeMiddleware($defaults, $middleware),
             $prefix,
             $domain,
+            $name
         );
     }
 
