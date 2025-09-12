@@ -31,13 +31,14 @@ class Vite
     /**
      * Handle the invocation of the class.
      */
-    public function __invoke(?string $param1 = null, ?string $param2 = null): HtmlString
+    public function __invoke(string $packageName, ?string $param1 = null, ?string $param2 = null): HtmlString
     {
         // Set the file and IP address based on parameters.
         $this->setFileAndIp($param1, $param2);
 
         // Get the package name.
-        $this->packageName = $this->getPackageName();
+        // $this->packageName = $this->getPackageName();
+        $this->packageName = $packageName;
 
         // Check if HMR server is running and return the appropriate response.
         if ($this->isRunningHot()) {
