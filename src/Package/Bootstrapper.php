@@ -192,13 +192,11 @@ class Bootstrapper
 
         $path = $this->getRoutePath($filename);
 
-        if (! is_file($path)) {
-            return $this;
+        if (empty($group)) {
+            require $path;
+        } else {
+            Route::group($group, fn () => require $path);
         }
-
-        $loader = static fn () => require $path;
-
-        $group === [] ? $loader() : Route::group($group, $loader);
 
         return $this;
     }
