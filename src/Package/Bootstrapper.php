@@ -149,9 +149,9 @@ class Bootstrapper
     ): array {
         $group = [
             'middleware' => $middleware,
-            'prefix'     => $prefix,
-            'domain'     => $domain,
-            'as'         => $name,
+            'prefix' => $prefix,
+            'domain' => $domain,
+            'as' => $name,
         ];
 
         return array_filter($group, fn ($value) => $value !== null);
@@ -164,9 +164,7 @@ class Bootstrapper
      */
     protected function getRoutePath(string $filename): string
     {
-        return $this->basePath
-            .'/routes/'
-            .ltrim($filename, '/\\');
+        return $this->basePath.'/routes/'.ltrim($filename, '/\\');
     }
 
     /**
