@@ -10,6 +10,7 @@ class FactorySingle
     {
         $clone = new self; // new, independent instance
         $clone->basePath = \dirname(\rtrim($basePath, '/\\'));
+
         return $clone;
     }
 
