@@ -169,6 +169,22 @@ class Bootstrapper
         return array_filter($group, static fn ($value) => $value !== null);
     }
 
+    /**
+     * Compose the Route group "prefix" from the global package key and an optional per-call prefix.
+     *
+     * Behavior:
+     * - If $this->key is set, it is always prepended.
+     * - Both $this->key and $prefix are trimmed of leading/trailing slashes.
+     * - If both are empty/null, returns null (no 'prefix' attribute is applied).
+     * - Output never begins or ends with '/', segments are joined by a single '/'.
+     *
+     * Examples:
+     *   key='blog', prefix=null      => 'blog'
+     *   key='blog', prefix='admin'   => 'blog/admin'
+     *   key='blog', prefix='/admin'  => 'blog/admin'
+     *   key=null,   prefix='admin'   => 'admin'
+     *   key=null,   prefix=null      => null
+     */
     protected function composePrefix(?string $prefix): ?string
     {
         $parts = [];
@@ -184,6 +200,26 @@ class Bootstrapper
         return $parts ? implode('/', $parts) : null;
     }
 
+    /**
+     * Compose the Route name prefix ("as") from the global package key and an optional per-call name.
+     *
+     * Behavior:
+     * - If no key is set, returns $name as-is (which may be null).
+     * - If $name is empty/null and key exists, returns "key." (so child routes become "key.*").
+     * - If $name is non-empty and does not already start with "key.", returns "key.$name".
+     * - If $name already starts with "key.", it is returned unchanged (no double-prefixing).
+     *
+     * Notes:
+     * - This method does not alter trailing dots in $name; pass "admin." if you need a trailing dot.
+     *
+     * Examples:
+     *   key='blog', name=null        => 'blog.'
+     *   key='blog', name='admin'     => 'blog.admin'
+     *   key='blog', name='admin.'    => 'blog.admin.'
+     *   key='blog', name='blog.api'  => 'blog.api'
+     *   key=null,   name='admin'     => 'admin'
+     *   key=null,   name=null        => null
+     */
     protected function composeName(?string $name): ?string
     {
         if (! $this->key) {
