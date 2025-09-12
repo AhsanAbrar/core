@@ -102,15 +102,16 @@ class Bootstrapper
     }
 
     /**
-     * Register routes from an arbitrary file.
+     * Generic loader for a routes file with optional group attributes.
      */
     public function routes(
         string $filename,
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null
+        ?string $domain = null,
+        ?string $name = null
     ): static {
-        $group = $this->buildGroup($middleware, $prefix, $domain);
+        $group = $this->buildGroup($middleware, $prefix, $domain, $name);
 
         return $this->loadRoutes($filename, $group);
     }
