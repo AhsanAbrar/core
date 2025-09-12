@@ -97,11 +97,11 @@ class Bootstrapper
     public function commandRoutes(string $filename = 'console.php'): static
     {
         if (app()->runningInConsole()) {
-            $path = $this->getRoutePath($filename);
+            // $path = $this->getRoutePath($filename);
 
-            if (is_file($path)) {
-                require $path;
-            }
+            // if (is_file($path)) {
+            //     require $path;
+            // }
         }
 
         return $this;
