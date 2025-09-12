@@ -11,7 +11,7 @@ class Bootstrapper
      */
     public function __construct(private string $basePath)
     {
-        $this->basePath = dirname(rtrim($basePath, '/\\'));
+        $this->basePath = \dirname(\rtrim($basePath, '/\\'));
     }
 
     /**
