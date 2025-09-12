@@ -97,6 +97,7 @@ class Bootstrapper
     public function commandRoutes(string $filename = 'console.php'): static
     {
         if (app()->runningInConsole()) {
+            return $this->routes($filename);
             // $path = $this->getRoutePath($filename);
 
             // if (is_file($path)) {
