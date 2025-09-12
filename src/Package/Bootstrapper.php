@@ -21,7 +21,7 @@ class Bootstrapper
      */
     public function views(string $namespace, string $relative = 'resources/views'): static
     {
-        $path = $this->basePath . \DIRECTORY_SEPARATOR . \ltrim($relative, '/\\');
+        $path = $this->basePath.\DIRECTORY_SEPARATOR.\ltrim($relative, '/\\');
 
         app('view')->addNamespace($namespace, $path);
 
