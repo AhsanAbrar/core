@@ -53,8 +53,8 @@ class Bootstrapper
             $filename,
             $this->mergeMiddleware(['web'], $middleware),
             $prefix,
-            $domain,
-            $name
+            $name,
+            $domain
         );
     }
 
@@ -72,8 +72,8 @@ class Bootstrapper
             $filename,
             $this->mergeMiddleware(['api'], $middleware),
             $prefix,
-            $domain,
-            $name
+            $name,
+            $domain
         );
     }
 
@@ -96,8 +96,8 @@ class Bootstrapper
             $filename,
             $this->mergeMiddleware($defaults, $middleware),
             $prefix,
-            $domain,
-            $name
+            $name,
+            $domain
         );
     }
 
