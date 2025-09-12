@@ -180,9 +180,7 @@ class Bootstrapper
 
         $loader = static fn () => require $path;
 
-        empty($group)
-            ? $loader()
-            : Route::group($group, $loader);
+        $group === [] ? $loader() : Route::group($group, $loader);
 
         return $this;
     }
