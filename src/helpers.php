@@ -41,8 +41,8 @@ if (! function_exists('vite_tags')) {
      *
      * @throws \Exception
      */
-    function vite_tags($manifestDirectory = '', $port = 5173, $file = 'main.js')
+    function vite_tags($packageName, $manifestDirectory = '', $port = 5173, $file = 'main.js')
     {
-        return app(Vite::class)($manifestDirectory, $port, $file);
+        return app(Vite::class)($packageName, $manifestDirectory, $port, $file);
     }
 }
