@@ -10,8 +10,10 @@ class Bootstrapper
     /**
      * Absolute base path of the package.
      */
-    public function __construct(private string $basePath)
-    {
+    public function __construct(
+        protected string $basePath,
+        protected ?string $key = null,
+    ) {
         $this->basePath = dirname(rtrim($basePath, '/\\'));
     }
 
