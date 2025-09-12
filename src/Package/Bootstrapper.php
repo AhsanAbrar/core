@@ -19,8 +19,6 @@ class Bootstrapper
 
     /**
      * Register a view namespace for this package.
-     *
-     * Usage: ->views('blog') then view('blog::home')
      */
     public function views(?string $namespace = null, string $relative = 'resources/views'): static
     {
