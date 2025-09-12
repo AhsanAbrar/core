@@ -178,7 +178,7 @@ class Bootstrapper
             return $this;
         }
 
-        $loader = fn () => require $path;
+        $loader = static fn () => require $path;
 
         empty($group)
             ? $loader()
