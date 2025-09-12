@@ -1,7 +1,5 @@
 <?php
 
-use AhsanDev\Support\Vite;
-
 if (! function_exists('option')) {
     /**
      * Get or set the specified option value(s).
@@ -27,22 +25,5 @@ if (! function_exists('option')) {
         }
 
         return $service->get($key, $default);
-    }
-}
-
-if (! function_exists('vite_tags')) {
-    /**
-     * Get the path to a versioned vite file.
-     *
-     * @param  string  $manifestDirectory
-     * @param  int  $port
-     * @param  string|null  $file
-     * @return \Illuminate\Support\HtmlString|string
-     *
-     * @throws \Exception
-     */
-    function vite_tags($packageName, $manifestDirectory = '', $port = 5173, $file = 'main.js')
-    {
-        return app(Vite::class)($packageName, $manifestDirectory, $port, $file);
     }
 }
