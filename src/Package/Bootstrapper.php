@@ -2,6 +2,7 @@
 
 namespace Spanvel\Package;
 
+use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Support\Facades\Route;
 
 class Bootstrapper
@@ -170,11 +171,22 @@ class Bootstrapper
         return $this->basePath.'/routes/'.ltrim($filename, '/\\');
     }
 
+    protected function routesAreCached(): bool
+    {
+        $app = app();
+
+        return $app instanceof CachesRoutes && $app->routesAreCached();
+    }
+
     /**
      * Load and (optionally) group the given route file.
      */
     protected function loadRoutes(string $filename, array $group): static
     {
+        if ($this->routesAreCached()) {
+            return $this;
+        }
+
         $path = $this->getRoutePath($filename);
 
         if (! is_file($path)) {
