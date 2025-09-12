@@ -7,22 +7,6 @@ use Illuminate\Support\Facades\Route;
 class App
 {
     /**
-     * Absolute base path of the package.
-     */
-    public function __construct(protected string $basePath)
-    {
-        $this->basePath = dirname(rtrim($basePath, '/\\'));
-    }
-
-    /**
-     * Instantiate the class fluently.
-     */
-    public static function boot(string $packagePath): static
-    {
-        return new static($packagePath);
-    }
-
-    /**
      * Register a namespaced view path for this module.
      *
      * Example: App::boot(__DIR__)->views('site');
