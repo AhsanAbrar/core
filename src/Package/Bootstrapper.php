@@ -184,7 +184,7 @@ class Bootstrapper
     /**
      * Load and (optionally) group the given route file.
      */
-    protected function loadRoutes(string $filename, array $group): static
+    protected function loadRoutes(string $filename, array $group = []): static
     {
         if ($this->routesAreCached()) {
             return $this;
