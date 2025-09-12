@@ -98,11 +98,6 @@ class Bootstrapper
     {
         if (app()->runningInConsole()) {
             return $this->routes($filename);
-            // $path = $this->getRoutePath($filename);
-
-            // if (is_file($path)) {
-            //     require $path;
-            // }
         }
 
         return $this;
