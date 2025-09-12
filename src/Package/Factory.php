@@ -7,8 +7,8 @@ class Factory
     /**
      * Entry point for users: Package::boot(__DIR__) → Bootstrapper
      */
-    public function boot(string $packagePath): Bootstrapper
+    public function boot(string $basePath): Bootstrapper
     {
-        return new Bootstrapper($packagePath);
+        return new Bootstrapper($basePath);
     }
 }
