@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Http\Middleware\RegisterPackage;
 // use Spanvel\Package\PackageContext;
-use Spanvel\Package\PackageRegistrar;
 use Spanvel\Support\Contracts\Option as OptionContract;
 use Spanvel\Support\Option;
 
@@ -44,10 +43,6 @@ class CoreServiceProvider extends ServiceProvider
 
         if (! $this->app->configurationIsCached()) {
             $this->mergeConfigFrom(__DIR__.'/../config/packages.php', 'packages');
-        }
-
-        if ($this->app->runningInConsole() && ! $this->app->runningUnitTests()) {
-            PackageRegistrar::registerAllProviders();
         }
 
         $this->app->make(HttpKernel::class)
