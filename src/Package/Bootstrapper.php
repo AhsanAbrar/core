@@ -182,7 +182,7 @@ class Bootstrapper
     }
 
     /**
-     * Load and (optionally) group the given route file.
+     * Load the given route file and apply an optional Route::group().
      */
     protected function loadRoutes(string $filename, array $group = []): static
     {
