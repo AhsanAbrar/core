@@ -2,11 +2,11 @@
 
 namespace Spanvel;
 
-use Illuminate\Contracts\Http\Kernel as HttpKernel;
+// use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Spanvel\Http\Middleware\RegisterPackage;
+// use Spanvel\Http\Middleware\RegisterPackage;
 // use Spanvel\Package\PackageContext;
 use Spanvel\Support\Contracts\Option as OptionContract;
 use Spanvel\Support\Option;
@@ -41,11 +41,11 @@ class CoreServiceProvider extends ServiceProvider
 
         Model::unguard();
 
-        if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__.'/../config/packages.php', 'packages');
-        }
+        // if (! $this->app->configurationIsCached()) {
+        //     $this->mergeConfigFrom(__DIR__.'/../config/packages.php', 'packages');
+        // }
 
-        $this->app->make(HttpKernel::class)
-            ->pushMiddleware(RegisterPackage::class);
+        // $this->app->make(HttpKernel::class)
+        //     ->pushMiddleware(RegisterPackage::class);
     }
 }
