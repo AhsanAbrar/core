@@ -91,7 +91,7 @@ class Bootstrapper
     }
 
     /**
-     * Register sanctum api routes for the package.
+     * Register console command routes for the package.
      */
     public function commandRoutes(
         string $filename = 'console.php',
