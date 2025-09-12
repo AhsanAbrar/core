@@ -35,13 +35,15 @@ class Bootstrapper
         string $filename = 'web.php',
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null
+        ?string $domain = null,
+        ?string $name = null
     ): static {
         return $this->routes(
             $filename,
             $this->mergeMiddleware(['web'], $middleware),
             $prefix,
             $domain,
+            $name
         );
     }
 
@@ -52,13 +54,15 @@ class Bootstrapper
         string $filename = 'api.php',
         string|array|null $middleware = null,
         ?string $prefix = 'api',
-        ?string $domain = null
+        ?string $domain = null,
+        ?string $name = null
     ): static {
         return $this->routes(
             $filename,
             $this->mergeMiddleware(['api'], $middleware),
             $prefix,
             $domain,
+            $name
         );
     }
 
