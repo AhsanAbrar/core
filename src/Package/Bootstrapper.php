@@ -22,9 +22,19 @@ class Bootstrapper
      *
      * Usage: ->views('blog') then view('blog::home')
      */
-    public function views(string $namespace, string $relative = 'resources/views'): static
+    public function views(?string $namespace = null, string $relative = 'resources/views'): static
     {
         $path = $this->basePath.DIRECTORY_SEPARATOR.ltrim($relative, '/\\');
+
+        $namespace ??= $this->key;
+
+        if ($namespace === null) {
+            throw new \InvalidArgumentException(sprintf(
+                "Unable to register views for package at [%s]: no namespace provided and no key set.\n".
+                "Hint: call ->views('your-namespace') or set a package key in Package::boot(__DIR__, key: 'your-key').",
+                $path
+            ));
+        }
 
         app('view')->addNamespace($namespace, $path);
 
