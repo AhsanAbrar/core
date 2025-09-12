@@ -36,8 +36,8 @@ class Bootstrapper
         string $filename = 'web.php',
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null,
-        ?string $name = null
+        ?string $name = null,
+        ?string $domain = null
     ): static {
         return $this->routes(
             $filename,
@@ -55,8 +55,8 @@ class Bootstrapper
         string $filename = 'api.php',
         string|array|null $middleware = null,
         ?string $prefix = 'api',
-        ?string $domain = null,
-        ?string $name = null
+        ?string $name = null,
+        ?string $domain = null
     ): static {
         return $this->routes(
             $filename,
@@ -75,8 +75,8 @@ class Bootstrapper
         bool $stateful = true,
         string|array|null $middleware = null,
         ?string $prefix = 'api',
-        ?string $domain = null,
-        ?string $name = null
+        ?string $name = null,
+        ?string $domain = null
     ): static {
         $defaults = $stateful
             ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
@@ -114,8 +114,8 @@ class Bootstrapper
         string $filename,
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null,
-        ?string $name = null
+        ?string $name = null,
+        ?string $domain = null
     ): static {
         $group = $this->buildGroup($middleware, $prefix, $domain, $name);
 
