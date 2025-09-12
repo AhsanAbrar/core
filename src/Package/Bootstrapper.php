@@ -144,13 +144,19 @@ class Bootstrapper
     protected function buildGroup(
         string|array|null $middleware,
         ?string $prefix,
-        ?string $domain
+        ?string $domain,
+        ?string $name
     ): array {
-        return array_filter([
+        $group = [
             'middleware' => $middleware,
-            'prefix' => $prefix,
-            'domain' => $domain,
-        ], fn ($value) => $value !== null);
+            'prefix'     => $prefix,
+            'domain'     => $domain,
+            'as'         => $name,
+        ];
+
+        return array_filter($group, fn ($value) => $value !== null);
+
+        return array_filter($group, static fn ($value) => $value !== null && $value !== []);
     }
 
     /**
