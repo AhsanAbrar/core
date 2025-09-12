@@ -2,6 +2,8 @@
 
 namespace Spanvel\Package;
 
+use Illuminate\Support\Facades\Route;
+
 class Bootstrapper
 {
     /**
@@ -13,21 +15,13 @@ class Bootstrapper
     }
 
     /**
-     * Instantiate the class fluently.
-     */
-    public static function make(string $packagePath): static
-    {
-        return new static($packagePath);
-    }
-
-    /**
      * Prepend the package view path to the view finder.
      */
-    public function views(): static
+    public function views(string $namespace, string $relative = 'resources/views'): static
     {
-        app('view')->getFinder()->prependLocation(
-            $this->basePath.DIRECTORY_SEPARATOR.'resources/views'
-        );
+        $path = $this->basePath.DIRECTORY_SEPARATOR.ltrim($relative, '/\\');
+
+        app('view')->addNamespace($namespace, $path);
 
         return $this;
     }
@@ -39,15 +33,13 @@ class Bootstrapper
         string $filename = 'web.php',
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null,
-        ?string $controller = null
+        ?string $domain = null
     ): static {
         return $this->routes(
             $filename,
             $this->mergeMiddleware(['web'], $middleware),
-            $prefix ?? Package::key(),
+            $prefix,
             $domain,
-            $controller,
         );
     }
 
@@ -57,16 +49,14 @@ class Bootstrapper
     public function apiRoutes(
         string $filename = 'api.php',
         string|array|null $middleware = null,
-        ?string $prefix = null,
-        ?string $domain = null,
-        ?string $controller = null
+        ?string $prefix = 'api',
+        ?string $domain = null
     ): static {
         return $this->routes(
             $filename,
             $this->mergeMiddleware(['api'], $middleware),
-            $prefix ?? Package::key().'/api',
+            $prefix,
             $domain,
-            $controller,
         );
     }
 
@@ -77,9 +67,8 @@ class Bootstrapper
         string $filename = 'api.php',
         bool $stateful = true,
         string|array|null $middleware = null,
-        ?string $prefix = null,
-        ?string $domain = null,
-        ?string $controller = null
+        ?string $prefix = 'api',
+        ?string $domain = null
     ): static {
         $defaults = $stateful
             ? [\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, 'auth:sanctum', 'api']
@@ -88,9 +77,19 @@ class Bootstrapper
         return $this->routes(
             $filename,
             $this->mergeMiddleware($defaults, $middleware),
-            $prefix ?? Package::key().'/api',
+            $prefix,
             $domain,
-            $controller,
+        );
+    }
+
+    /**
+     * Register sanctum api routes for the package.
+     */
+    public function commandRoutes(
+        string $filename = 'console.php',
+    ): static {
+        return $this->routes(
+            $filename,
         );
     }
 
@@ -101,30 +100,11 @@ class Bootstrapper
         string $filename,
         string|array|null $middleware = null,
         ?string $prefix = null,
-        ?string $domain = null,
-        ?string $controller = null
+        ?string $domain = null
     ): static {
-        $group = $this->buildGroup($middleware, $prefix, $domain, $controller);
+        $group = $this->buildGroup($middleware, $prefix, $domain);
 
         return $this->loadRoutes($filename, $group);
-    }
-
-    /**
-     * Exclude the given route segments globally.
-     *
-     * The provided segments will be merged with any existing values defined in
-     * the `packages.excluded_segments` configuration key. Duplicates are
-     * automatically removed and the array is re-indexed.
-     */
-    public function excludeSegments(array $segments): static
-    {
-        $existing = app('config')->get('packages.excluded_segments', []);
-
-        $merged = array_values(array_unique(array_merge($existing, $segments)));
-
-        app('config')->set('packages.excluded_segments', $merged);
-
-        return $this;
     }
 
     /**
@@ -155,14 +135,12 @@ class Bootstrapper
     protected function buildGroup(
         string|array|null $middleware,
         ?string $prefix,
-        ?string $domain,
-        ?string $controller
+        ?string $domain
     ): array {
         return array_filter([
             'middleware' => $middleware,
             'prefix' => $prefix,
             'domain' => $domain,
-            'controller' => $controller,
         ], fn ($value) => $value !== null);
     }
 
