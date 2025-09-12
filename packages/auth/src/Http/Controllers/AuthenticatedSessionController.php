@@ -15,7 +15,7 @@ class AuthenticatedSessionController
      */
     public function create(): View
     {
-        return view('login');
+        return view('auth::login');
     }
 
     /**

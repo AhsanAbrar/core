@@ -1,34 +1,34 @@
 <x-auth-layout>
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-auth::auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full"
+            <x-auth::input-label for="email" :value="__('Email')" />
+            <x-auth::text-input id="email" class="block mt-1 w-full"
                 type="email"
                 name="email"
                 :value="old('email')"
                 required
                 autofocus
                 autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-auth::input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <x-auth::input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <x-auth::text-input id="password" class="block mt-1 w-full"
                 type="password"
                 name="password"
                 required
                 autocomplete="current-password" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-auth::input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Remember Me -->
@@ -71,9 +71,9 @@
                 {{ __('Forgot your password?') }}
             </a>
 
-            <x-primary-button class="ms-3">
+            <x-auth::primary-button class="ms-3">
                 {{ __('Log in') }}
-            </x-primary-button>
+            </x-auth::primary-button>
         </div>
     </form>
 </x-auth-layout>

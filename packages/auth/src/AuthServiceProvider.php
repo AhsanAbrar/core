@@ -21,15 +21,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Package::boot(__DIR__)
-            ->views()
-            ->webRoutes()
-            ->excludeSegments([
-                'login',
-                // 'logout',
-                // 'register',
-                // 'password',
-                // 'email',
-            ]);
+            ->views('auth')
+            ->webRoutes();
 
         BladeComponents::register();
     }
