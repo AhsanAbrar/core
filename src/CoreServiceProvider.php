@@ -41,6 +41,10 @@ class CoreServiceProvider extends ServiceProvider
 
         Model::unguard();
 
+        if ($this->app->runningInConsole()) {
+            app()->register(SpanvelServiceProvider::class);
+        }
+
         // if (! $this->app->configurationIsCached()) {
         //     $this->mergeConfigFrom(__DIR__.'/../config/packages.php', 'packages');
         // }

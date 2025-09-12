@@ -93,7 +93,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         }
 
         $this->composerUpdate();
-        $this->addPackageToConfig();
+        // $this->addPackageToConfig();
 
         // Register the package...
         // if ($this->confirm('Would you like to update your composer package?', true)) {
