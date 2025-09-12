@@ -155,8 +155,6 @@ class Bootstrapper
         ];
 
         return array_filter($group, fn ($value) => $value !== null);
-
-        return array_filter($group, static fn ($value) => $value !== null && $value !== []);
     }
 
     /**
