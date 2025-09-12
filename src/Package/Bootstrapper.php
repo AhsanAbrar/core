@@ -11,7 +11,7 @@ class Bootstrapper
      */
     public function __construct(private string $basePath)
     {
-        $this->basePath = \dirname(\rtrim($basePath, '/\\'));
+        $this->basePath = dirname(rtrim($basePath, '/\\'));
     }
 
     /**
@@ -21,7 +21,7 @@ class Bootstrapper
      */
     public function views(string $namespace, string $relative = 'resources/views'): static
     {
-        $path = $this->basePath.\DIRECTORY_SEPARATOR.\ltrim($relative, '/\\');
+        $path = $this->basePath.DIRECTORY_SEPARATOR.ltrim($relative, '/\\');
 
         app('view')->addNamespace($namespace, $path);
 
@@ -93,12 +93,9 @@ class Bootstrapper
     /**
      * Register console command routes for the package.
      */
-    public function commandRoutes(
-        string $filename = 'console.php',
-    ): static {
-        return $this->routes(
-            $filename,
-        );
+    public function commandRoutes(string $filename = 'console.php'): static
+    {
+        return $this->routes($filename);
     }
 
     /**
