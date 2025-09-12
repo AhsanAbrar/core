@@ -15,11 +15,13 @@ class Bootstrapper
     }
 
     /**
-     * Prepend the package view path to the view finder.
+     * Register a view namespace for this package.
+     *
+     * Usage: ->views('blog') then view('blog::home')
      */
     public function views(string $namespace, string $relative = 'resources/views'): static
     {
-        $path = $this->basePath.DIRECTORY_SEPARATOR.ltrim($relative, '/\\');
+        $path = $this->basePath . \DIRECTORY_SEPARATOR . \ltrim($relative, '/\\');
 
         app('view')->addNamespace($namespace, $path);
 
