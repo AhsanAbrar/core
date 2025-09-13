@@ -35,8 +35,8 @@ class CoreServiceProvider extends ServiceProvider
             return "<?php echo app(Spanvel\Support\Vite::class)($expression); ?>";
         });
 
-        Blade::directive('appData', function () {
-            return "<?php echo app(Spanvel\Directive\AppDataDirective::class)(); ?>";
+        Blade::directive('appData', function ($expression) {
+            return "<?php echo app(Spanvel\Directive\AppDataDirective::class)($expression); ?>";
         });
 
         Model::unguard();
