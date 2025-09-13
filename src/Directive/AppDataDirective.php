@@ -8,17 +8,21 @@ class AppDataDirective
 {
     /**
      * Handle the invocation of the class.
+     *
+     * @param string $class FQCN from Blade (either 'Foo\Bar' or Foo\Bar::class)
      */
-    public function __invoke($class): HtmlString
+    public function __invoke(string $class): HtmlString
     {
+        $class = trim((string) $class, " \t\n\r\0\x0B'\"");
+
         if (! class_exists($class)) {
             throw new \RuntimeException("AppData class [{$class}] not found.");
         }
 
-        $data = json_encode(new $class);
+        $instance = new $class;
 
-        return new HtmlString(
-            sprintf('<script>window.AppData = %s</script>', $data)
-        );
+        $json = json_encode($instance, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        return new HtmlString("<script>window.AppData={$json}</script>");
     }
 }
