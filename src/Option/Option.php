@@ -1,6 +1,6 @@
 <?php
 
-namespace Spanvel\Support;
+namespace Spanvel\Option;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
