@@ -61,3 +61,18 @@ it('clears cache after update', function () {
     Option::put('theme', 'dark');
     expect(Option::get('theme'))->toBe('dark');
 });
+
+it('works with the global option() helper', function () {
+    option(['site_name' => 'Codedot']);
+    expect(option('site_name'))->toBe('Codedot');
+    expect(option('missing_key', 'default'))->toBe('default');
+});
+
+it('returns raw string when json decoding fails', function () {
+    DB::table('options')->insert([
+        'key' => 'raw_value',
+        'value' => 'plain-text-value',
+    ]);
+
+    expect(Option::get('raw_value'))->toBe('plain-text-value');
+});
