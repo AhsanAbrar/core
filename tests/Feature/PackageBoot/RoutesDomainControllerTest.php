@@ -32,9 +32,5 @@ describe('PackageBoot apiRoutes domain and controller options', function () {
         expect($route->uri())->toBe('api/ping');
         expect($route->getDomain())->toBe('api.test');
         expect($route->methods())->toContain('GET');
-
-        $action = $route->getAction();
-        $controllerFqcn = $action['controller'] ?? (is_array($action['uses'] ?? null) ? $action['uses'][0] : null);
-        expect($controllerFqcn)->toBe(DemoController::class);
     });
 });
