@@ -15,14 +15,11 @@ class SiteServiceProviderWithDomainController extends ServiceProvider
     public function boot(): void
     {
         Package::boot(__DIR__)
-            ->views()
             ->webRoutes(
                 domain: 'web.test',
-                controller: \Tests\Fixtures\Site\Http\Controllers\DemoController::class,
             )
             ->apiRoutes(
                 domain: 'api.test',
-                controller: \Tests\Fixtures\Site\Http\Controllers\DemoController::class,
             );
     }
 }
