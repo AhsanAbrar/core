@@ -15,7 +15,7 @@ class SiteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Package::boot(__DIR__)
-            ->views()
+            ->views('site')
             ->webRoutes()
             ->apiRoutes();
     }
