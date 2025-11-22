@@ -4,12 +4,6 @@ namespace Spanvel\Console\Concerns;
 
 use Illuminate\Support\Str;
 
-/**
- * Helpers for working with package names and their common variants.
- *
- * This trait assumes the consuming command defines a `package` argument and
- * optionally a `namespace` option (similar to typical Laravel artisan commands).
- */
 trait InteractsWithPackageNames
 {
     /**
@@ -17,7 +11,6 @@ trait InteractsWithPackageNames
      */
     protected function packageName(): string
     {
-        /** @var string $package */
         $package = $this->argument('package');
 
         return $package;
