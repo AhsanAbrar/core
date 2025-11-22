@@ -25,7 +25,7 @@ trait InteractsWithPackageNames
             return str_replace('/', '\\', $namespace);
         }
 
-        return Str::studly($this->packageName());
+        return Str::studly($this->name());
     }
 
     /**
@@ -39,7 +39,7 @@ trait InteractsWithPackageNames
             return str_replace('/', '\\\\', $namespace);
         }
 
-        return Str::studly($this->packageName());
+        return Str::studly($this->name());
     }
 
     /**
@@ -47,7 +47,7 @@ trait InteractsWithPackageNames
      */
     protected function camelName(): string
     {
-        return Str::camel($this->packageName());
+        return Str::camel($this->name());
     }
 
     /**
@@ -55,7 +55,7 @@ trait InteractsWithPackageNames
      */
     protected function kebabName(): string
     {
-        return Str::kebab($this->packageName());
+        return Str::kebab($this->name());
     }
 
     /**
@@ -63,7 +63,7 @@ trait InteractsWithPackageNames
      */
     protected function kebabPluralName(): string
     {
-        return Str::kebab(Str::plural($this->packageName()));
+        return Str::kebab(Str::plural($this->name()));
     }
 
     /**
@@ -71,7 +71,7 @@ trait InteractsWithPackageNames
      */
     protected function pluralName(): string
     {
-        return Str::plural($this->packageName());
+        return Str::plural($this->name());
     }
 
     /**
@@ -79,7 +79,7 @@ trait InteractsWithPackageNames
      */
     protected function titleName(): string
     {
-        return Str::of($this->packageName())->replace('-', ' ')->title();
+        return Str::of($this->name())->replace('-', ' ')->title();
     }
 
     /**
@@ -87,7 +87,7 @@ trait InteractsWithPackageNames
      */
     protected function pascalName(): string
     {
-        return Str::studly($this->packageName());
+        return Str::studly($this->name());
     }
 
     /**

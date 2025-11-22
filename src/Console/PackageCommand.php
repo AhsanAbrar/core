@@ -66,7 +66,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $packagePath = $this->packagePath();
 
         if ($this->filesystem->isDirectory($packagePath)) {
-            $this->fail("Package already exists at [{$packagePath}].");
+            // $this->fail("Package already exists at [{$packagePath}].");
         }
 
         $this->info('Creating a new Spanvel package...');
