@@ -74,9 +74,9 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $this->fail('The package name must be in kebab-case.');
         }
 
-        // if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'vue-app'])) {
-        //     $this->fail('Invalid package type. Allowed types: basic, blade, vue, vue-app');
-        // }
+        if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'app-vue'])) {
+            $this->fail('Invalid package type. Allowed types: basic, blade, vue, app-vue');
+        }
     }
 
     /**
