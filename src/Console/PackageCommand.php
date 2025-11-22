@@ -16,8 +16,6 @@ class PackageCommand extends Command implements PromptsForMissingInput
      * @var string
      */
     protected $signature = 'spanvel:package {package : The spanvel package name} {type : The spanvel package type}
-                            {--routes : Add web routes to the basic package}
-                            {--views : Add web routes and views to the basic package}
                             {--namespace= : The root namespace of the package if it is different from package name}
                             {--no-composer : Do not add the package to composer.json}
                             {--autoload : Add package to the PSR-4 autoload in composer.json}
