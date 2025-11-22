@@ -77,7 +77,7 @@ trait InteractsWithPackageNames
     /**
      * Get the title-cased variant of the package name.
      */
-    protected function titleName(): string
+    protected function title(): string
     {
         return Str::of($this->name())->replace('-', ' ')->title();
     }
