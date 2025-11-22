@@ -5,6 +5,7 @@ namespace Spanvel\Console;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Spanvel\Console\Concerns\InteractsWithFilesystem;
+use Symfony\Component\Process\Process;
 
 class PackageCommand extends Command implements PromptsForMissingInput
 {
@@ -75,7 +76,10 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $packagePath
         );
 
-        // TODO: Handle --namespace, --no-composer, --autoload, --composer-setup options.
+        $this->updateStubs();
+        $this->renameStubs();
+        $this->addPackageToAutoload();
+        $this->composerDump();
 
         $this->info("Spanvel package generated successfully at [{$packagePath}].");
 
@@ -125,5 +129,33 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function isKebabCase(string $string): bool
     {
         return (bool) preg_match('/^[a-z]+(-[a-z]+)*$/', $string);
+    }
+
+    /**
+     * Update the project's composer dependencies.
+     */
+    protected function composerDump(): void
+    {
+        $this->executeCommand(['composer', 'dump']);
+    }
+
+    /**
+     * Update the project's composer dependencies.
+     */
+    protected function composerUpdate(): void
+    {
+        $this->executeCommand(['composer', 'update']);
+    }
+
+    /**
+     * Run the given command as a process.
+     */
+    protected function executeCommand(array $command): void
+    {
+        $process = (new Process($command))->setTimeout(null);
+
+        $process->run(function ($type, $buffer) {
+            echo $buffer;
+        });
     }
 }
