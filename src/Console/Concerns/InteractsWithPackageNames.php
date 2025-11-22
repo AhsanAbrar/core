@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Spanvel\Devtools\Console\Concerns;
+namespace Spanvel\Console\Concerns;
 
 use Illuminate\Support\Str;
 
