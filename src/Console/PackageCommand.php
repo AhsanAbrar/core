@@ -4,12 +4,12 @@ namespace Spanvel\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Spanvel\Console\Concerns\InteractsWithFilesystem;
 use Symfony\Component\Process\Process;
 
 class PackageCommand extends Command implements PromptsForMissingInput
 {
-    use InteractsWithFilesystem;
+    use Concerns\InteractsWithFilesystem,
+        Concerns\InteractsWithPackageNames;
 
     /**
      * Allowed package types.
