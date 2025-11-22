@@ -87,6 +87,73 @@ class PackageCommand extends Command implements PromptsForMissingInput
     }
 
     /**
+     * Update Stubs.
+     */
+    protected function updateStubs(): void
+    {
+        $files = $this->filesystem->allFiles($this->packagePath());
+
+        foreach ($files as $file) {
+            $stub = $this->filesystem->get($file);
+
+            $replacements = [
+                '[[name]]' => $this->name(),
+                '[[rootNamespace]]' => $this->rootNamespace(),
+                '[[rootNamespaceComposer]]' => $this->rootNamespaceComposer(),
+                '[[pascalName]]' => $this->pascalName(),
+                '[[title]]' => $this->title(),
+            ];
+
+            $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
+
+            $this->filesystem->put($file->getPathname(), $content);
+        }
+    }
+
+    /**
+     * Rename Stubs.
+     */
+    protected function renameStubs()
+    {
+        $renames = [
+            'src\ServiceProvider.stub' => 'src/[[pascalName]]ServiceProvider.php',
+            '.gitignore.stub' => '.gitignore',
+        ];
+
+        $files = $this->filesystem->allFiles($this->packagePath(), true);
+
+        foreach ($files as $file) {
+            if ($file->getExtension() !== 'stub') {
+                continue;
+            }
+
+            $fileName = $renames[$file->getRelativePathname()] ?? null;
+            $newFileName = $this->replacePlaceholders($fileName);
+
+            $newFilePath = $this->packagePath($newFileName);
+            $this->filesystem->move($file->getPathname(), $newFilePath);
+        }
+    }
+
+    /**
+     * Add a package entry for the package to the application's composer.json file.
+     */
+    protected function addPackageToAutoload(): void
+    {
+        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+        $namespace = $this->rootNamespace().'\\';
+
+        $composer['autoload']['psr-4'][(string) $namespace] = "packages/{$this->name()}/src/";
+
+        $composer['autoload']['psr-4'] = collect($composer['autoload']['psr-4'])->sortKeysUsing('strcasecmp')->toArray();
+
+        file_put_contents(
+            base_path('composer.json'),
+            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+        );
+    }
+
+    /**
      * Validate the arguments.
      */
     protected function validateArguments(): void
