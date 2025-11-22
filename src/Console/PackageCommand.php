@@ -27,7 +27,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
                             {package : The Spanvel package name (kebab-case)}
                             {type? : The Spanvel package type}
                             {--namespace= : The root namespace of the package if it is different from the package name}
-                            {--no-composer : Do not add the package to composer.json}
+                            {--no-composer : Do not change composer.json}
                             {--autoload : Add the package to the PSR-4 autoload in composer.json}
                             {--composer-setup : Add the package to require-dev and repositories in composer.json}';
 
@@ -39,7 +39,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected $description = 'Create a new Spanvel package';
 
     /**
-     * Prompt for missing input arguments using the returned questions.
+     * Prompt for missing input arguments.
      */
     protected function promptForMissingArgumentsUsing(): array
     {
@@ -76,10 +76,20 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $packagePath
         );
 
-        $this->updateStubs();
-        $this->renameStubs();
-        $this->addPackageToAutoload();
-        $this->composerDump();
+        $this->updateStubs($packagePath);
+        $this->renameStubs($packagePath);
+
+        if (! $this->option('no-composer')) {
+            if ($this->option('autoload')) {
+                $this->addPackageToAutoload();
+            }
+
+            if ($this->option('composer-setup')) {
+                // TODO: Implement composer setup (require-dev + repositories).
+            }
+
+            $this->composerDump();
+        }
 
         $this->info("Spanvel package generated successfully at [{$packagePath}].");
 
@@ -87,11 +97,11 @@ class PackageCommand extends Command implements PromptsForMissingInput
     }
 
     /**
-     * Update Stubs.
+     * Replace placeholders inside stub files.
      */
-    protected function updateStubs(): void
+    protected function updateStubs(string $packagePath): void
     {
-        $files = $this->filesystem->allFiles($this->packagePath());
+        $files = $this->filesystem->allFiles($packagePath);
 
         foreach ($files as $file) {
             $stub = $this->filesystem->get($file);
@@ -104,52 +114,85 @@ class PackageCommand extends Command implements PromptsForMissingInput
                 '[[title]]' => $this->title(),
             ];
 
-            $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
+            $content = str_replace(
+                array_keys($replacements),
+                array_values($replacements),
+                $stub
+            );
 
             $this->filesystem->put($file->getPathname(), $content);
         }
     }
 
     /**
-     * Rename Stubs.
+     * Rename stub files to their final filenames.
      */
-    protected function renameStubs()
+    protected function renameStubs(string $packagePath): void
     {
         $renames = [
-            'src\ServiceProvider.stub' => 'src/[[pascalName]]ServiceProvider.php',
+            'src/ServiceProvider.stub' => 'src/[[pascalName]]ServiceProvider.php',
             '.gitignore.stub' => '.gitignore',
         ];
 
-        $files = $this->filesystem->allFiles($this->packagePath(), true);
+        $files = $this->filesystem->allFiles($packagePath, true);
 
         foreach ($files as $file) {
             if ($file->getExtension() !== 'stub') {
                 continue;
             }
 
-            $fileName = $renames[$file->getRelativePathname()] ?? null;
+            $relativePath = $file->getRelativePathname();
+
+            // If file is not in the renames list, skip it.
+            if (! array_key_exists($relativePath, $renames)) {
+                continue;
+            }
+
+            $fileName = $renames[$relativePath];
+
+            // Assuming you have this helper in another trait / on the class.
             $newFileName = $this->replacePlaceholders($fileName);
 
-            $newFilePath = $this->packagePath($newFileName);
+            $newFilePath = $packagePath.DIRECTORY_SEPARATOR.$newFileName;
+
             $this->filesystem->move($file->getPathname(), $newFilePath);
         }
     }
 
     /**
-     * Add a package entry for the package to the application's composer.json file.
+     * Add the package to the application's PSR-4 autoload.
      */
     protected function addPackageToAutoload(): void
     {
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-        $namespace = $this->rootNamespace().'\\';
+        $composerPath = base_path('composer.json');
 
-        $composer['autoload']['psr-4'][(string) $namespace] = "packages/{$this->name()}/src/";
+        if (! $this->filesystem->exists($composerPath)) {
+            $this->fail('composer.json not found.');
+        }
 
-        $composer['autoload']['psr-4'] = collect($composer['autoload']['psr-4'])->sortKeysUsing('strcasecmp')->toArray();
+        $contents = $this->filesystem->get($composerPath);
 
-        file_put_contents(
-            base_path('composer.json'),
-            json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+        $composer = json_decode($contents, true);
+
+        if (! is_array($composer)) {
+            $this->fail('Unable to decode composer.json.');
+        }
+
+        $composer['autoload'] ??= [];
+        $composer['autoload']['psr-4'] ??= [];
+
+        $namespace = $this->rootNamespaceComposer().'\\';
+
+        $composer['autoload']['psr-4'][$namespace] = "packages/{$this->name()}/src/";
+
+        ksort($composer['autoload']['psr-4'], SORT_STRING | SORT_FLAG_CASE);
+
+        $this->filesystem->put(
+            $composerPath,
+            json_encode(
+                $composer,
+                JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+            ).PHP_EOL
         );
     }
 
@@ -199,15 +242,15 @@ class PackageCommand extends Command implements PromptsForMissingInput
     }
 
     /**
-     * Update the project's composer dependencies.
+     * Run composer dump-autoload.
      */
     protected function composerDump(): void
     {
-        $this->executeCommand(['composer', 'dump']);
+        $this->executeCommand(['composer', 'dump-autoload']);
     }
 
     /**
-     * Update the project's composer dependencies.
+     * Run composer update (currently unused).
      */
     protected function composerUpdate(): void
     {
@@ -219,10 +262,10 @@ class PackageCommand extends Command implements PromptsForMissingInput
      */
     protected function executeCommand(array $command): void
     {
-        $process = (new Process($command))->setTimeout(null);
+        $process = (new Process($command, base_path()))->setTimeout(null);
 
         $process->run(function ($type, $buffer) {
-            echo $buffer;
+            $this->output->write($buffer);
         });
     }
 }
