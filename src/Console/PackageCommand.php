@@ -66,10 +66,32 @@ class PackageCommand extends Command implements PromptsForMissingInput
     }
 
     /**
+     * Validate the arguments.
+     */
+    protected function validateArguments(): void
+    {
+        if (! $this->isKebabCase($this->argument('package'))) {
+            $this->fail('The package name must be in kebab-case.');
+        }
+
+        // if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'vue-app'])) {
+        //     $this->fail('Invalid package type. Allowed types: basic, blade, vue, vue-app');
+        // }
+    }
+
+    /**
      * Get the path to the package.
      */
     protected function packagePath(): string
     {
         return base_path('packages/'.$this->argument('package'));
+    }
+
+    /**
+     * Determine if the given string is in kebab-case.
+     */
+    protected function isKebabCase(string $string): bool
+    {
+        return (bool) preg_match('/^[a-z]+(-[a-z]+)*$/', $string);
     }
 }
