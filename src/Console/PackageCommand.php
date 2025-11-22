@@ -4,7 +4,6 @@ namespace Spanvel\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Filesystem\Filesystem;
 use Spanvel\Console\Concerns\CommandHelpers;
 use Spanvel\Console\Concerns\PackageReplaceHelpers;
 use Symfony\Component\Process\Process;
@@ -12,14 +11,6 @@ use Symfony\Component\Process\Process;
 class PackageCommand extends Command implements PromptsForMissingInput
 {
     use CommandHelpers, PackageReplaceHelpers;
-
-    /**
-     * Create a new instance of the command.
-     */
-    public function __construct(protected Filesystem $filesystem)
-    {
-        parent::__construct();
-    }
 
     /**
      * The name and signature of the console command.
