@@ -125,7 +125,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
             '.gitignore.stub' => '.gitignore',
         ];
 
-        $files = $this->filesystem->allFiles($packagePath);
+        $files = $this->filesystem->allFiles($packagePath, true);
 
         foreach ($files as $file) {
             if ($file->getExtension() !== 'stub') {
