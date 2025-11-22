@@ -11,22 +11,31 @@ class PackageCommand extends Command implements PromptsForMissingInput
     use InteractsWithFilesystem;
 
     /**
+     * Allowed package types.
+     *
+     * @var array<int, string>
+     */
+    protected const ALLOWED_TYPES = ['basic', 'blade', 'vue', 'app-vue'];
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'spanvel:package {package : The spanvel package name} {type : The spanvel package type}
-                            {--namespace= : The root namespace of the package if it is different from package name}
+    protected $signature = 'spanvel:package
+                            {package : The Spanvel package name (kebab-case)}
+                            {type? : The Spanvel package type}
+                            {--namespace= : The root namespace of the package if it is different from the package name}
                             {--no-composer : Do not add the package to composer.json}
-                            {--autoload : Add package to the PSR-4 autoload in composer.json}
-                            {--composer-setup : Add package to require-dev and repositories in composer.json}';
+                            {--autoload : Add the package to the PSR-4 autoload in composer.json}
+                            {--composer-setup : Add the package to require-dev and repositories in composer.json}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new spanvel package';
+    protected $description = 'Create a new Spanvel package';
 
     /**
      * Prompt for missing input arguments using the returned questions.
@@ -34,9 +43,13 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
+            'package' => fn () => $this->ask(
+                'Package name (kebab-case, e.g. blog-api)'
+            ),
+
             'type' => fn () => $this->choice(
                 'Select the package type:',
-                ['basic', 'blade', 'vue', 'app-vue'],
+                self::ALLOWED_TYPES,
                 'basic'
             ),
         ];
@@ -49,18 +62,22 @@ class PackageCommand extends Command implements PromptsForMissingInput
     {
         $this->validateArguments();
 
-        if ($this->filesystem->isDirectory($this->packagePath())) {
-            $this->fail('Package already exists!');
+        $packagePath = $this->packagePath();
+
+        if ($this->filesystem->isDirectory($packagePath)) {
+            $this->fail("Package already exists at [{$packagePath}].");
         }
 
-        $this->info('Creating a new spanvel package...');
+        $this->info('Creating a new Spanvel package...');
 
         $this->filesystem->copyDirectory(
-            __DIR__.'/../../packages/'.$this->argument('type'),
-            $this->packagePath()
+            $this->stubPath(),
+            $packagePath
         );
 
-        $this->info('Spanvel package generated successfully.');
+        // TODO: Handle --namespace, --no-composer, --autoload, --composer-setup options.
+
+        $this->info("Spanvel package generated successfully at [{$packagePath}].");
 
         return static::SUCCESS;
     }
@@ -70,12 +87,19 @@ class PackageCommand extends Command implements PromptsForMissingInput
      */
     protected function validateArguments(): void
     {
-        if (! $this->isKebabCase($this->argument('package'))) {
-            $this->fail('The package name must be in kebab-case.');
+        $package = (string) $this->argument('package');
+        $type = (string) $this->argument('type');
+
+        if (! $this->isKebabCase($package)) {
+            $this->fail(
+                'The package name must be in kebab-case (e.g. blog-api, project-manager).'
+            );
         }
 
-        if (! in_array($this->argument('type'), ['basic', 'blade', 'vue', 'app-vue'])) {
-            $this->fail('Invalid package type. Allowed types: basic, blade, vue, app-vue');
+        if (! in_array($type, self::ALLOWED_TYPES, true)) {
+            $this->fail(
+                'Invalid package type. Allowed types: '.implode(', ', self::ALLOWED_TYPES).'.'
+            );
         }
     }
 
@@ -85,6 +109,14 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function packagePath(): string
     {
         return base_path('packages/'.$this->argument('package'));
+    }
+
+    /**
+     * Get the path to the package stub directory for the selected type.
+     */
+    protected function stubPath(): string
+    {
+        return __DIR__.'/../../packages/'.$this->argument('type');
     }
 
     /**
