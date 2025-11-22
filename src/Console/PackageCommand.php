@@ -25,7 +25,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
      */
     protected $signature = 'spanvel:package
                             {package : The Spanvel package name (kebab-case)}
-                            {type? : The Spanvel package type}
+                            {type : The Spanvel package type}
                             {--namespace= : The root namespace of the package if it is different from the package name}
                             {--no-composer : Do not change composer.json}
                             {--autoload : Add the package to the PSR-4 autoload in composer.json}
@@ -79,17 +79,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $this->updateStubs($packagePath);
         $this->renameStubs($packagePath);
 
-        if (! $this->option('no-composer')) {
-            if ($this->option('autoload')) {
-                $this->addPackageToAutoload();
-            }
-
-            if ($this->option('composer-setup')) {
-                // TODO: Implement composer setup (require-dev + repositories).
-            }
-
-            $this->composerDump();
-        }
+        $this->addPackageToAutoload();
+        $this->composerDump();
 
         $this->info("Spanvel package generated successfully at [{$packagePath}].");
 
