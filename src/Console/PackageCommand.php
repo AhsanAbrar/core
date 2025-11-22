@@ -264,8 +264,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
     {
         $process = (new Process($command, base_path()))->setTimeout(null);
 
-        $process->run(function ($type, $buffer) {
-            $this->output->write($buffer);
+        $process->run(function (...$args) {
+            $this->output->write($args[1]);
         });
     }
 }
