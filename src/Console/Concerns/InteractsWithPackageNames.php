@@ -18,10 +18,6 @@ trait InteractsWithPackageNames
 
     /**
      * Get the root namespace for the package.
-     *
-     * When the --namespace option is provided, it is used as-is (with forward
-     * slashes converted to namespace separators). Otherwise, the StudlyCase
-     * version of the package name is used.
      */
     protected function rootNamespace(): string
     {
