@@ -47,6 +47,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
      */
     public function handle(): int
     {
+        $this->validateArguments();
+
         if ($this->filesystem->isDirectory($this->packagePath())) {
             $this->fail('Package already exists!');
         }
