@@ -134,17 +134,14 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
             $relativePath = $file->getRelativePathname();
 
-            // If file is not in the renames list, skip it.
             if (! array_key_exists($relativePath, $renames)) {
                 continue;
             }
 
-            $fileName = $renames[$relativePath];
-
+            $fileName = $renames[$file->getRelativePathname()] ?? null;
             $newFileName = $this->replacePlaceholders($fileName);
 
-            $newFilePath = $packagePath.DIRECTORY_SEPARATOR.$newFileName;
-
+            $newFilePath = $this->packagePath($newFileName);
             $this->filesystem->move($file->getPathname(), $newFilePath);
         }
     }
