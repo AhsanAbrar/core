@@ -47,12 +47,20 @@ class PackageCommand extends Command implements PromptsForMissingInput
      */
     public function handle(): int
     {
-        if ($this->filesystem->isDirectory($destination)) {
-            $this->fail('Spanvel Auth is already installed.');
+        if ($this->filesystem->isDirectory($this->packagePath())) {
+            $this->fail('Package already exists!');
         }
 
         $this->info('Spanvel package generated successfully.');
 
         return static::SUCCESS;
+    }
+
+    /**
+     * Get the path to the package.
+     */
+    protected function packagePath(): string
+    {
+        return base_path('packages/'.$this->argument('package'));
     }
 }
