@@ -51,6 +51,13 @@ class PackageCommand extends Command implements PromptsForMissingInput
             $this->fail('Package already exists!');
         }
 
+        $this->info('Creating a new spanvel package...');
+
+        $this->filesystem->copyDirectory(
+            __DIR__.'/../../packages/'.$this->argument('type'),
+            $this->packagePath()
+        );
+
         $this->info('Spanvel package generated successfully.');
 
         return static::SUCCESS;
