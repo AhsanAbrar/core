@@ -141,13 +141,23 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
             $fileName = $renames[$relativePath];
 
-            // Assuming you have this helper in another trait / on the class.
             $newFileName = $this->replacePlaceholders($fileName);
 
             $newFilePath = $packagePath.DIRECTORY_SEPARATOR.$newFileName;
 
             $this->filesystem->move($file->getPathname(), $newFilePath);
         }
+    }
+
+    protected function replacePlaceholders($str)
+    {
+        $replacements = [
+            '[[pascalName]]' => $this->pascalName(),
+            '[[title]]' => $this->title(),
+            '[[name]]' => $this->name(),
+        ];
+
+        return str_replace(array_keys($replacements), array_values($replacements), $str);
     }
 
     /**
