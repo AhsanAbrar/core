@@ -80,7 +80,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
         $this->renameStubs($packagePath);
 
         $this->addPackageToAutoload();
-        $this->composerDump();
+        // $this->composerDump();
 
         $this->info("Spanvel package generated successfully at [{$packagePath}].");
 
@@ -125,7 +125,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
             '.gitignore.stub' => '.gitignore',
         ];
 
-        $files = $this->filesystem->allFiles($packagePath, true);
+        $files = $this->filesystem->allFiles($packagePath);
 
         foreach ($files as $file) {
             if ($file->getExtension() !== 'stub') {
@@ -134,19 +134,24 @@ class PackageCommand extends Command implements PromptsForMissingInput
 
             $relativePath = $file->getRelativePathname();
 
-            if (! array_key_exists($relativePath, $renames)) {
+            if (! isset($renames[$relativePath])) {
                 continue;
             }
 
-            $fileName = $renames[$file->getRelativePathname()] ?? null;
-            $newFileName = $this->replacePlaceholders($fileName);
+            $targetPattern = $renames[$relativePath];
 
-            $newFilePath = $this->packagePath($newFileName);
+            $newRelativePath = $this->replacePlaceholders($targetPattern);
+
+            $newFilePath = rtrim($packagePath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$newRelativePath;
+
             $this->filesystem->move($file->getPathname(), $newFilePath);
         }
     }
 
-    protected function replacePlaceholders($str)
+    /**
+     * Replace placeholders in the given string.
+     */
+    protected function replacePlaceholders(string $value): string
     {
         $replacements = [
             '[[pascalName]]' => $this->pascalName(),
@@ -154,7 +159,11 @@ class PackageCommand extends Command implements PromptsForMissingInput
             '[[name]]' => $this->name(),
         ];
 
-        return str_replace(array_keys($replacements), array_values($replacements), $str);
+        return str_replace(
+            array_keys($replacements),
+            array_values($replacements),
+            $value
+        );
     }
 
     /**
