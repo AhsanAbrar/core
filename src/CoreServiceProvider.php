@@ -21,8 +21,7 @@ class CoreServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Console\InstallCommand::class,
-                Console\DisableRegistrationCommand::class,
+                Console\PackageCommand::class,
             ]);
         }
     }
