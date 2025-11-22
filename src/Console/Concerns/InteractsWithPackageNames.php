@@ -9,11 +9,9 @@ trait InteractsWithPackageNames
     /**
      * Get the base package name from the command argument.
      */
-    protected function packageName(): string
+    protected function name(): string
     {
-        $package = $this->argument('package');
-
-        return $package;
+        return $this->argument('package');
     }
 
     /**
