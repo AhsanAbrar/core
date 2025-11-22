@@ -16,7 +16,8 @@ class PackageCommand extends Command implements PromptsForMissingInput
      *
      * @var array<int, string>
      */
-    protected const ALLOWED_TYPES = ['basic', 'blade', 'vue', 'app-vue'];
+    protected const ALLOWED_TYPES = ['basic', 'vue', 'app-vue'];
+    // protected const ALLOWED_TYPES = ['basic', 'blade', 'vue', 'app-vue'];
 
     /**
      * The name and signature of the console command.
