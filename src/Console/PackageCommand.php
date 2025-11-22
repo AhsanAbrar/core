@@ -121,7 +121,7 @@ class PackageCommand extends Command implements PromptsForMissingInput
     protected function renameStubs(string $packagePath): void
     {
         $renames = [
-            'src/ServiceProvider.stub' => 'src/[[pascalName]]ServiceProvider.php',
+            'src\ServiceProvider.stub' => 'src/[[pascalName]]ServiceProvider.php',
             '.gitignore.stub' => '.gitignore',
         ];
 
