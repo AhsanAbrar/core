@@ -6,8 +6,7 @@ use Illuminate\Console\Command;
 
 class OptionCommand extends Command
 {
-    use Concerns\InteractsWithFilesystem,
-        Concerns\InteractsWithPackageNames;
+    use Concerns\InteractsWithFilesystem;
 
     /**
      * The name and signature of the console command.
