@@ -94,7 +94,7 @@ HTML
      */
     protected function renderProdTags(): HtmlString
     {
-        return new HtmlString('tags');
+
     }
 
     /**
