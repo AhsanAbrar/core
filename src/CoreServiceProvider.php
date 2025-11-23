@@ -3,6 +3,7 @@
 namespace Spanvel;
 
 use Illuminate\Support\ServiceProvider;
+use Spanvel\Package\PackageServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->registerProviders();
     }
 
     /**
@@ -23,6 +24,20 @@ class CoreServiceProvider extends ServiceProvider
             $this->commands([
                 Console\PackageCommand::class,
             ]);
+        }
+    }
+
+    /**
+     * Register the required service providers.
+     */
+    protected function registerProviders(): void
+    {
+        $providers = [
+            PackageServiceProvider::class,
+        ];
+
+        foreach ($providers as $provider) {
+            $this->app->register($provider);
         }
     }
 }
