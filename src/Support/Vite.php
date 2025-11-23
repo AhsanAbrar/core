@@ -2,9 +2,9 @@
 
 namespace Spanvel\Support;
 
-// use Exception;
-// use Illuminate\Foundation\ViteManifestNotFoundException;
+use Illuminate\Foundation\ViteException;
 use Illuminate\Support\HtmlString;
+use RuntimeException;
 
 class Vite
 {
@@ -100,7 +100,7 @@ HTML
 
         if (! isset($manifests[$manifestPath])) {
             if (! is_file($manifestPath)) {
-                throw new ViteManifestNotFoundException(
+                throw new ViteException(
                     "Vite manifest not found at [{$manifestPath}]."
                 );
             }
