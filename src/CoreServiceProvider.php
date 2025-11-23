@@ -5,6 +5,7 @@ namespace Spanvel;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Option\OptionServiceProvider;
 use Spanvel\Package\PackageServiceProvider;
+use Spanvel\Support\SupportServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,7 @@ class CoreServiceProvider extends ServiceProvider
         $providers = [
             PackageServiceProvider::class,
             OptionServiceProvider::class,
+            SupportServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
