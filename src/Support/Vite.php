@@ -109,21 +109,9 @@ HTML
         $manifest = $manifests[$manifestPath];
         $entryKey = "resources/js/{$this->entry}";
 
-        if (! isset($manifest[$entryKey])) {
-            throw new RuntimeException(
-                "Vite entry [{$entryKey}] is not present in the manifest at [{$manifestPath}]."
-            );
-        }
-
         $entry   = $manifest[$entryKey];
         $jsFile  = $entry['file'] ?? null;
         $cssList = $entry['css'] ?? [];
-
-        if (! $jsFile) {
-            throw new RuntimeException(
-                "Vite manifest entry [{$entryKey}] is missing the compiled JavaScript file path."
-            );
-        }
 
         $tags = [];
 
