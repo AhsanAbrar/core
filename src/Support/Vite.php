@@ -4,7 +4,6 @@ namespace Spanvel\Support;
 
 use Illuminate\Foundation\ViteException;
 use Illuminate\Support\HtmlString;
-use RuntimeException;
 
 class Vite
 {
