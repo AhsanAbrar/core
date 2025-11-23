@@ -21,7 +21,10 @@
     "autoload": {
         "psr-4": {
             "Spanvel\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
