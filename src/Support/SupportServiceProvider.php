@@ -22,7 +22,7 @@ class SupportServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::directive('viteTags', fn ($expression) =>
-            "<?php echo app(" . Vite::class . ")($expression); ?>"
+            "<?php echo app('" . Vite::class . "')($expression); ?>"
         );
     }
 }
