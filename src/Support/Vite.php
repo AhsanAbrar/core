@@ -78,9 +78,14 @@ class Vite
      */
     protected function renderDevTags(): HtmlString
     {
+        $host  = "{$this->host}:{$this->port}";
+        $entry = "resources/js/{$this->entry}";
+
         return new HtmlString(
-            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->host, $this->port).
-            sprintf('<script type="module" src="//%s:%s/resources/js/%s"></script>', $this->host, $this->port, $this->entry)
+            <<<HTML
+<script type="module" src="//{$host}/@vite/client"></script>
+<script type="module" src="//{$host}/{$entry}"></script>
+HTML
         );
     }
 
