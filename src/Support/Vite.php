@@ -33,7 +33,6 @@ class Vite
      */
     public function __invoke(string $package, string $entry = 'main.ts', string $host = 'localhost', string $port = '5173'): HtmlString
     {
-        dd('ew');
         $param1 = null;
         $param2 = null;
 
