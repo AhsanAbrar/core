@@ -37,26 +37,32 @@ class Vite
         $this->entry = $entry;
 
         if ($this->isRunningHot()) {
-            // return $this->renderDevTags();
+            return $this->renderDevTags();
         }
 
-        // return $this->renderProdTags();
+        return $this->renderProdTags();
     }
 
     /**
      * Determine if the HMR server is running.
      */
-    protected function renderDevTags()
+    protected function renderDevTags(): HtmlString
     {
-        //
+        return new HtmlString(
+            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->ip, $this->port).
+            sprintf('<script type="module" src="//%s:%s/resources/js/%s"></script>', $this->ip, $this->port, $this->file)
+        );
     }
 
     /**
      * Determine if the HMR server is running.
      */
-    protected function renderProdTags()
+    protected function renderProdTags(): HtmlString
     {
-        //
+        return new HtmlString(
+            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->ip, $this->port).
+            sprintf('<script type="module" src="//%s:%s/resources/js/%s"></script>', $this->ip, $this->port, $this->file)
+        );
     }
 
     /**
