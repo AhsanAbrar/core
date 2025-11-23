@@ -94,10 +94,7 @@ HTML
      */
     protected function renderProdTags(): HtmlString
     {
-        return new HtmlString(
-            sprintf('<script type="module" src="//%s:%s/@vite/client"></script>', $this->ip, $this->port).
-            sprintf('<script type="module" src="//%s:%s/resources/js/%s"></script>', $this->ip, $this->port, $this->file)
-        );
+        return new HtmlString('tags');
     }
 
     /**
