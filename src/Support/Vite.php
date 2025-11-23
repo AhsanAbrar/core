@@ -9,12 +9,12 @@ use RuntimeException;
 class Vite
 {
     /**
-     * The name of the spanvel package.
+     * The name of the Spanvel package.
      */
     protected string $package;
 
     /**
-     * The main file processed by Vite
+     * The main JavaScript entry file processed by Vite.
      */
     protected string $entry;
 
@@ -29,7 +29,7 @@ class Vite
     protected int $port = 5173;
 
     /**
-     * Handle the invocation of the class.
+     * Render the Vite tags for the given package and entry.
      */
     public function __invoke(string $package, string $entry = 'main.ts'): HtmlString
     {
@@ -46,7 +46,7 @@ class Vite
     }
 
     /**
-     * Determine if the HMR server is running.
+     * Set the dev server host and port from the hot file.
      */
     protected function setHostAndPort(): void
     {
@@ -74,7 +74,7 @@ class Vite
     }
 
     /**
-     * Determine if the HMR server is running.
+     * Render the tags for development mode (HMR server).
      */
     protected function renderDevTags(): HtmlString
     {
@@ -90,7 +90,7 @@ HTML
     }
 
     /**
-     * Determine if the HMR server is running.
+     * Render the tags for production mode (built assets).
      */
     protected function renderProdTags(): HtmlString
     {
