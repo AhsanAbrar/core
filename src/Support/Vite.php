@@ -105,15 +105,7 @@ HTML
                 );
             }
 
-            $decoded = json_decode(file_get_contents($manifestPath), true);
-
-            if (! is_array($decoded)) {
-                throw new RuntimeException(
-                    "Vite manifest at [{$manifestPath}] is not valid JSON."
-                );
-            }
-
-            $manifests[$manifestPath] = $decoded;
+            $manifests[$manifestPath] = json_decode(file_get_contents($manifestPath), true);
         }
 
         $manifest = $manifests[$manifestPath];
