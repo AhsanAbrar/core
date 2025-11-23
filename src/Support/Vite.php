@@ -2,16 +2,31 @@
 
 namespace Spanvel\Support;
 
-use Exception;
-use Illuminate\Foundation\ViteManifestNotFoundException;
+// use Exception;
+// use Illuminate\Foundation\ViteManifestNotFoundException;
 use Illuminate\Support\HtmlString;
 
 class Vite
 {
     /**
-     * The name of the package.
+     * The name of the spanvel package.
      */
     protected string $package;
+
+    /**
+     * The main file processed by Vite
+     */
+    protected string $entry;
+
+    /**
+     * The development server hostname.
+     */
+    protected string $host;
+
+    /**
+     * The development server port.
+     */
+    protected int $port;
 
     /**
      * Handle the invocation of the class.
@@ -19,12 +34,13 @@ class Vite
     public function __invoke(string $package, string $entry = 'main.ts'): HtmlString
     {
         $this->package = $package;
+        $this->entry = $entry;
 
         if ($this->isRunningHot()) {
-            return $this->renderDevTags();
+            // return $this->renderDevTags();
         }
 
-        return $this->renderProdTags();
+        // return $this->renderProdTags();
     }
 
     /**
