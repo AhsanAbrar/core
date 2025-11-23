@@ -100,9 +100,7 @@ HTML
 
         if (! isset($manifests[$manifestPath])) {
             if (! is_file($manifestPath)) {
-                throw new ViteException(
-                    "Vite manifest not found at [{$manifestPath}]."
-                );
+                throw new ViteException("Vite manifest not found at [{$manifestPath}].");
             }
 
             $manifests[$manifestPath] = json_decode(file_get_contents($manifestPath), true);
