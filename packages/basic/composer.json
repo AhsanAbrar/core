@@ -8,6 +8,13 @@
             "[[rootNamespaceComposer]]\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "[[rootNamespaceComposer]]\\[[rootNamespaceComposer]]ServiceProvider"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     },
