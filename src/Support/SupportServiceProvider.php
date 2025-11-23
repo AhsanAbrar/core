@@ -24,5 +24,13 @@ class SupportServiceProvider extends ServiceProvider
         Blade::directive('viteTags', fn ($expression) =>
             "<?php echo app('" . Vite::class . "')($expression); ?>"
         );
+
+        Blade::directive('appData', fn ($expression) =>
+            "<?php echo app('" . AppDataDirective::class . "')($expression); ?>"
+        );
+
+        Blade::directive('appData', function ($expression) {
+            return "<?php echo app(Spanvel\Directive\AppDataDirective::class)($expression); ?>";
+        });
     }
 }
