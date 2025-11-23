@@ -24,6 +24,7 @@ class CoreServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\PackageCommand::class,
+                Console\OptionCommand::class,
             ]);
         }
     }
