@@ -94,7 +94,64 @@ HTML
      */
     protected function renderProdTags(): HtmlString
     {
+        $manifestPath = public_path("vendor/{$this->package}/.vite/manifest.json");
 
+        static $manifests = [];
+
+        if (! isset($manifests[$manifestPath])) {
+            if (! is_file($manifestPath)) {
+                throw new ViteManifestNotFoundException(
+                    "Vite manifest not found at [{$manifestPath}]."
+                );
+            }
+
+            $decoded = json_decode(file_get_contents($manifestPath), true);
+
+            if (! is_array($decoded)) {
+                throw new RuntimeException(
+                    "Vite manifest at [{$manifestPath}] is not valid JSON."
+                );
+            }
+
+            $manifests[$manifestPath] = $decoded;
+        }
+
+        $manifest = $manifests[$manifestPath];
+        $entryKey = "resources/js/{$this->entry}";
+
+        if (! isset($manifest[$entryKey])) {
+            throw new RuntimeException(
+                "Vite entry [{$entryKey}] is not present in the manifest at [{$manifestPath}]."
+            );
+        }
+
+        $entry   = $manifest[$entryKey];
+        $jsFile  = $entry['file'] ?? null;
+        $cssList = $entry['css'] ?? [];
+
+        if (! $jsFile) {
+            throw new RuntimeException(
+                "Vite manifest entry [{$entryKey}] is missing the compiled JavaScript file path."
+            );
+        }
+
+        $tags = [];
+
+        foreach ($cssList as $css) {
+            $tags[] = sprintf(
+                '<link rel="stylesheet" type="text/css" href="/vendor/%s/%s">',
+                $this->package,
+                ltrim($css, '/')
+            );
+        }
+
+        $tags[] = sprintf(
+            '<script type="module" crossorigin src="/vendor/%s/%s"></script>',
+            $this->package,
+            ltrim($jsFile, '/')
+        );
+
+        return new HtmlString(implode('', $tags));
     }
 
     /**
