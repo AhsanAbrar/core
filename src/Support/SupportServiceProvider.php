@@ -4,6 +4,7 @@ namespace Spanvel\Support;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Spanvel\Support\AppDataDirective;
 use Spanvel\Support\Vite;
 
 class SupportServiceProvider extends ServiceProvider
