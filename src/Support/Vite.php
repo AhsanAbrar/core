@@ -21,12 +21,12 @@ class Vite
     /**
      * The development server hostname.
      */
-    protected string $host;
+    protected string $host = 'localhost';
 
     /**
      * The development server port.
      */
-    protected int $port;
+    protected int $port = 5173;
 
     /**
      * Handle the invocation of the class.
@@ -53,7 +53,6 @@ class Vite
         $contents = @file_get_contents($this->hotFilePath());
 
         if ($contents === false) {
-            // If for some reason the file disappeared, keep defaults.
             return;
         }
 
@@ -65,11 +64,11 @@ class Vite
             [$key, $value] = array_map('trim', explode(':', $line, 2));
 
             if ($key === 'ip' && $value !== '') {
-                $this->devHost = $value;
+                $this->host = $value;
             }
 
             if ($key === 'port' && is_numeric($value)) {
-                $this->devPort = (int) $value;
+                $this->port = (int) $value;
             }
         }
     }
