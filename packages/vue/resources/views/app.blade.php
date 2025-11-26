@@ -46,8 +46,8 @@
         }
     </style>
 
-    @appData(VueExample\Support\AppData::class)
-    @viteTags('vue-example')
+    @appData([[rootNamespace]]\Support\AppData::class)
+    @viteTags('[[name]]')
 </head>
 <body class="h-full">
     <div id="app" class="h-full">

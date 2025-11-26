@@ -1,11 +1,11 @@
 <?php
 
-namespace VueExample;
+namespace [[rootNamespace]];
 
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Support\Facades\Package;
 
-class VueExampleServiceProvider extends ServiceProvider
+class [[pascalName]]ServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -21,7 +21,7 @@ class VueExampleServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Package::boot(__DIR__)
-            ->views('vue-example')
+            ->views('[[name]]')
             ->webRoutes();
     }
 }

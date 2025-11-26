@@ -32,7 +32,7 @@ export default defineConfig({
   build: {
     manifest: true,
     emptyOutDir: true,
-    outDir: resolve(__dirname, '../../public/vendor/vue-example'),
+    outDir: resolve(__dirname, '../../public/vendor/[[name]]'),
     rollupOptions: {
       input: resolve(__dirname, 'resources/js/main.ts'),
     },

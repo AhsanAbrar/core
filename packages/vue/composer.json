@@ -1,17 +1,17 @@
 {
-    "name": "spanvel/vue-example",
+    "name": "spanvel/[[name]]",
     "require": {
         "php": "^8.2"
     },
     "autoload": {
         "psr-4": {
-            "VueExample\\": "src/"
+            "[[rootNamespaceComposer]]\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "VueExample\\VueExampleServiceProvider"
+                "[[rootNamespaceComposer]]\\[[rootNamespaceComposer]]ServiceProvider"
             ]
         }
     },
