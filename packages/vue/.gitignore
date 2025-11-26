@@ -12,12 +12,8 @@ node_modules
 dist
 dist-ssr
 coverage
-vendor
 hot
 *.local
-
-/cypress/videos/
-/cypress/screenshots/
 
 # Editor directories and files
 .vscode/*
@@ -30,3 +26,12 @@ hot
 *.sw?
 
 *.tsbuildinfo
+
+.eslintcache
+
+# Cypress
+/cypress/videos/
+/cypress/screenshots/
+
+# Vitest
+__screenshots__/

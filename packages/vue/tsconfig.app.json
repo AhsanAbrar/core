@@ -1,0 +1,20 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["env.d.ts", "resources/js/**/*", "resources/js/**/*.vue"],
+  "exclude": ["resources/js/**/__tests__/*"],
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    "paths": {
+      "@/*": ["./resources/js/*"],
+      "app-data": ["./resources/js/app-data.ts"],
+      "components/*": ["./resources/js/components/*"],
+      "composables/*": ["./resources/js/composables/*"],
+      "layouts/*": ["./resources/js/layouts/*"],
+      "services/*": ["./resources/js/services/*"],
+      "stores/*": ["./resources/js/stores/*"],
+      "types": ["./resources/js/types/index.d.ts"],
+      "views/*": ["./resources/js/views/*"]
+    }
+  }
+}

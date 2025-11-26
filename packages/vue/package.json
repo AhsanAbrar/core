@@ -1,0 +1,50 @@
+{
+  "name": "vue-example",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite --host",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
+    "lint:eslint": "eslint . --fix",
+    "lint": "run-s lint:*",
+    "format": "prettier --write resources/js/",
+    "format-check": "prettier --check resources/js/"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.1.17",
+    "vue": "^3.5.24"
+  },
+  "devDependencies": {
+    "@prettier/plugin-oxc": "^0.0.5",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/node": "~24.10.1",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-oxlint": "^1.29.0",
+    "eslint-plugin-vue": "^10.6.0",
+    "jiti": "^2.6.1",
+    "lucide-vue-next": "^0.554.0",
+    "npm-run-all2": "^8.0.4",
+    "oxlint": "^1.29.0",
+    "pinia": "^3.0.4",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "spanvel-vite-plugin": "^0.1.1",
+    "typescript": "~5.9.3",
+    "vite": "npm:rolldown-vite@latest",
+    "vue-router": "^4.6.3",
+    "vue-tsc": "^3.1.5"
+  }
+}
