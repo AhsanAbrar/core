@@ -7,14 +7,17 @@
 
     "paths": {
       "@/*": ["./resources/js/*"],
-      "app-data": ["./resources/js/app-data.ts"],
-      "components/*": ["./resources/js/components/*"],
-      "composables/*": ["./resources/js/composables/*"],
-      "layouts/*": ["./resources/js/layouts/*"],
-      "services/*": ["./resources/js/services/*"],
-      "stores/*": ["./resources/js/stores/*"],
-      "types": ["./resources/js/types/index.d.ts"],
-      "views/*": ["./resources/js/views/*"]
+      "@app-data": ["./resources/js/app-data.ts"],
+      "@components/*": ["./resources/js/components/*"],
+      "@composables/*": ["./resources/js/composables/*"],
+      "@features/*": ["./resources/js/features/*"],
+      "@layouts/*": ["./resources/js/layouts/*"],
+      "@services/*": ["./resources/js/services/*"],
+      "@stores/*": ["./resources/js/stores/*"],
+      "@types": ["./resources/js/types/index.d.ts"],
+      "@ui/*": ["./resources/js/ui/*"],
+      "@utils/*": ["./resources/js/utils/*"],
+      "@views/*": ["./resources/js/views/*"]
     }
   }
 }
