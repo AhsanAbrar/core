@@ -2,6 +2,7 @@
 
 namespace Spanvel\Support;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Spanvel\Support\AppDataDirective;
@@ -22,6 +23,8 @@ class SupportServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::unguard();
+
         Blade::directive('viteTags', fn ($expression) =>
             "<?php echo app('" . Vite::class . "')($expression); ?>"
         );
