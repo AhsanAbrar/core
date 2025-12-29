@@ -9,6 +9,20 @@ final class PaginatedResponse
 {
     /**
      * Build a standardized paginated API payload from a Laravel paginator.
+     *
+     * @return array{
+     *   data: array<mixed>,
+     *   pagination: array{
+     *     mode: 'simple'|'length_aware',
+     *     current_page: int,
+     *     per_page: int,
+     *     from: int|null,
+     *     to: int|null,
+     *     has_more: bool,
+     *     total: int|null,
+     *     last_page: int|null,
+     *   }
+     * }
      */
     public static function from(LengthAwarePaginator|Paginator $paginator): array
     {
