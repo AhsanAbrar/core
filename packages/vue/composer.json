@@ -8,11 +8,11 @@
             "[[rootNamespaceComposer]]\\": "src/"
         },
         "test-names": {
-            "name\\": "[[name]]",
-            "rootNamespace\\": "[[rootNamespace]]",
-            "rootNamespaceComposer\\": "[[rootNamespaceComposer]]",
-            "pascalName\\": "[[pascalName]]",
-            "title\\": "[[title]]"
+            "name": "[[name]]",
+            "rootNamespace": "[[rootNamespace]]",
+            "rootNamespaceComposer": "[[rootNamespaceComposer]]",
+            "pascalName": "[[pascalName]]",
+            "title": "[[title]]"
         }
     },
     "extra": {
