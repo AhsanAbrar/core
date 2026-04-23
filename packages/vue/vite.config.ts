@@ -35,7 +35,7 @@ export default defineConfig({
   build: {
     manifest: true,
     emptyOutDir: true,
-    outDir: '../../public/vendor/vue-package-dev',
+    outDir: '../../public/vendor/[[name]]',
     rolldownOptions: {
       input: 'resources/js/main.ts',
     },

@@ -42,8 +42,8 @@
         }
     </style>
 
-    @appData(VuePackageDev\Support\AppData::class)
-    @viteTags('vue-package-dev')
+    @appData([[rootNamespace]]\Support\AppData::class)
+    @viteTags('[[name]]')
 </head>
 <body class="bg-gray-100">
     <div id="app">
