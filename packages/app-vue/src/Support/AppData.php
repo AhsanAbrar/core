@@ -1,6 +1,6 @@
 <?php
 
-namespace AppVuePackage\Support;
+namespace [[rootNamespace]]\Support;
 
 // use Illuminate\Support\Facades\Auth;
 use JsonSerializable;
@@ -31,7 +31,7 @@ class AppData implements JsonSerializable
             'is_super_admin' => true,
             'permissions' => [],
             'locale' => option('app_locale', 'en'),
-            'translations' => json_decode(file_get_contents(base_path('packages/app-vue-package/lang/'.option('app_locale', 'en').'.json')), true),
+            'translations' => json_decode(file_get_contents(base_path('packages/[[name]]/lang/'.option('app_locale', 'en').'.json')), true),
             // 'user' => Auth::user()->only(['id', 'name', 'email', 'avatar']),
         ];
     }

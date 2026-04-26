@@ -55,8 +55,8 @@
         }
     </style>
 
-    @appData(AppVuePackage\Support\AppData::class)
-    @viteTags('app-vue-package')
+    @appData([[rootNamespace]]\Support\AppData::class)
+    @viteTags('[[name]]')
 </head>
 
 <body>
