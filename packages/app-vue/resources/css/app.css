@@ -1,0 +1,47 @@
+@import './tailwind.css';
+@import './theme.css';
+
+/* Modal Transition Styles */
+.modal-enter-active {
+  transition-property: opacity;
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+}
+
+.modal-leave-active {
+  transition-property: opacity;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.modal-leave-from,
+.modal-enter-to {
+  opacity: 1;
+}
+
+.modal-enter-active .modal-content {
+  transition-duration: 300ms;
+  transition-timing-function: ease-out;
+}
+
+.modal-leave-active .modal-content {
+  transition-duration: 200ms;
+  transition-timing-function: ease-in;
+}
+
+.modal-enter-from .modal-content,
+.modal-leave-to .modal-content {
+  opacity: 0;
+  transform: translateY(1rem) scale(1.1);
+}
+
+.modal-leave-from .modal-content,
+.modal-enter-to .modal-content {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
