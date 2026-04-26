@@ -20,14 +20,23 @@
 
       <!-- Action -->
       <div class="mt-6">
-        <RouterLink :to="{ name: 'users.create' }" class="btn-primary btn-sm">
-          {{ __('Add user') }}
-        </RouterLink>
+        <button
+          type="button"
+          class="btn-primary btn-sm"
+          @click="useModalStore().add(Form, { onSaved: fetch })"
+        >
+          {{ __('Create User') }}
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-  import { UserIcon } from '@heroicons/vue/24/outline';
+  import { useModalStore } from '@stores/modal'
+  import Form from '../pages/Form.vue'
+  import { UserIcon } from '@heroicons/vue/24/outline'
+  import { useUsersIndexPage } from '@features/users/composables/useUsersIndexPage'
+
+  const { fetch } = useUsersIndexPage()
 </script>
